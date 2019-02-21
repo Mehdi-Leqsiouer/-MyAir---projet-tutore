@@ -1,0 +1,19 @@
+CREATE TABLE public.plat_airparif_data
+(
+  id serial NOT NULL,
+  "timestamp" timestamp(6) with time zone NOT NULL,
+  node_id bigint NOT NULL,
+  gps_lat double precision,
+  gps_lng double precision,
+  gps_alt double precision,
+  temperature double precision,
+  humidity double precision,
+  pressure double precision,
+  "pm2.5" double precision,
+  pm10 double precision,
+  "pm1.0" double precision,
+  formaldehyde double precision,
+  no2 double precision,
+  geom geometry(Point,4326),
+  CONSTRAINT plat_parif_pk PRIMARY KEY (id)
+)

@@ -1,0 +1,7 @@
+<2018-11-15 12:19:32> : 1000 rows added into polluscope table
+<2018-11-15 12:19:37> : 1000 rows added into polluscope table
+<2018-11-15 12:19:39> : 1000 rows added into polluscope table
+<2018-11-15 12:21:41> : 3000 rows added into polluscope table
+<2018-11-15 12:22:06> : 3000 rows added into polluscope table
+<2018-11-15 12:22:10> : 3000 rows added into polluscope table
+<2018-11-15 13:23:47> : 3000 rows added into polluscope table

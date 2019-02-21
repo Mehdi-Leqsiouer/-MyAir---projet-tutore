@@ -1,0 +1,4 @@
+  line:689  width: 1500px; }instead of   width: calc(33.3333333333% + 1rem); }
+
+
+  line:700 width: 1500px; } instead of width: calc(33.3333333333% + -0.5rem); }
