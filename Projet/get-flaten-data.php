@@ -151,7 +151,13 @@
 							if(isset($_POST['start']) && isset($_POST['end'])) 
 							
 							{    
+							
+								if (isset($_POST['DeviceID'])) {
 								$sensor_ids=$_POST['DeviceID'];
+								}
+								if (isset($_POST['DeviceID2'])) {
+								$sensor_ids2=$_POST['DeviceID2'];
+								}
 						        $start=$_POST['start'];//result of formt yyyy-mm-ddThh:ii:ss
 								
 								$end=$_POST['end'];	
@@ -160,7 +166,7 @@
 								
 								$hourEnd=$_POST['hourEnd'];	
 								
-								
+								$cptr = 0;
 								
 								if(strlen($hourStart)==1) 
 								
@@ -188,12 +194,21 @@
 										CONSTRAINT \"Tabletemporary_pkey\" PRIMARY KEY (\"Id\")
 										)" );
 									
+								if (isset($_POST['DeviceID'])) {
 							    foreach ($sensor_ids as $sensor_id )
 								{
 								pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) 
 								VALUES($sensor_id)");
 								}
+								}
 								
+								if (isset($_POST['DeviceID2'])) {
+								foreach ($sensor_ids2 as $sensor_id )
+								{
+								pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) 
+								VALUES($sensor_id)");
+								}
+								}
 				
 								echo " <div class=\"highlights\">
 								
@@ -223,7 +238,7 @@
 									<?php }	
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node ");
 								echo "</select>								
-								<select id = 'test2' class=button3 style=\"width:200px;display:none;\" name='DeviceID[]' multiple >	";
+								<select id = 'test2' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> >
@@ -239,7 +254,7 @@
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
-								<button type ='button' id = 'test'>+</button>
+								<button type ='button' id = 'test'>+</button>								
 								
 								</header>
 								
@@ -273,6 +288,7 @@
 								$(document).ready (function() {
 									$("button").click(function(){
 										$("#test2").show();
+										$cptr +=1;
 									});
 								});
 
@@ -608,7 +624,7 @@
 									<?php }	
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node  ");
 								echo "</select>
-								<select id = 'test' class=button3 style=\"width:200px;display:none;\" name='DeviceID[]' multiple >	";
+								<select id = 'test' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> >
