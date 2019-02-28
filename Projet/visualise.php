@@ -60,7 +60,7 @@
   function getData(){
     $.ajax({
             type: "GET",
-            url: "http://"+gVars.host+"/polluscope/query-data.php",
+            url: "query-data.php",
             data: {
               DateStart: moment($("#dateTimePicker").val().split(" - ")[0],"DD/MM/YYYY hh:mm").format("YYYY-MM-DD hh:mm"),
               DateEnd: moment($("#dateTimePicker").val().split(" - ")[1],"DD/MM/YYYY hh:mm").format("YYYY-MM-DD hh:mm"),
@@ -108,7 +108,7 @@
   function getActiveNodes(){
     $.ajax({
             type: "GET",
-            url: "http://"+gVars.host+"/polluscope/nodes.php",
+            url: "nodes.php",
             data: "",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
