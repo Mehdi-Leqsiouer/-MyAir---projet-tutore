@@ -10,12 +10,14 @@ start_date<-paste(args[1],args[2],sep=" ")
 end_date<-paste(args[3],args[4],sep=" ")
 sensor_box<-args[5]
 sensor_type<-args[6]
+colorPlot<-args[7]
 
 #start_date<-"2017-02-20 18:10"
 #end_date<-"2018-02-20 18:10"
 #sensor_box<-4317218322204134
 #sensor_type<-"pm1.0"
-.libPaths('C:/Users/Leqsi/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
+#colorPlot<-"green"
+#.libPaths('C:/Users/android/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
 require('ggplot2')
 require('ggmap')
@@ -29,22 +31,22 @@ write.csv(out, file = "MyData.csv",row.names = FALSE)
 png(filename="plot.png",width=500,height=500)# open or creat the png file
 
 if(sensor_type=="pm1.0")
-  p<- ggplot(out, aes(out$timestamp, out$pm1.0, color=pm1.0))
+  p<- ggplot(out, aes(out$timestamp, out$pm1.0, color='pm1.0'))
 if(sensor_type=="pm10")
-  p<- ggplot(out, aes(out$timestamp, out$pm10, color=pm10))
+  p<- ggplot(out, aes(out$timestamp, out$pm10, color='pm10'))
 if(sensor_type=="pm2.5")
-  p<- ggplot(out, aes(out$timestamp, out$pm2.5, color=pm2.5))
+  p<- ggplot(out, aes(out$timestamp, out$pm2.5, color='pm2.5'))
 if(sensor_type=="no2")
-  p<- ggplot(out, aes(out$timestamp, out$no2, color=no2))
+  p<- ggplot(out, aes(out$timestamp, out$no2, color='no2'))
 if(sensor_type=="bc")
-  p<- ggplot(out, aes(out$timestamp, out$bc, color=bc))
+  p<- ggplot(out, aes(out$timestamp, out$bc, color='bc'))
 
-p + geom_point()+ labs(x = "timestamp ", y=sensor_type ,title = "AirParif")
+p + geom_point(color=colorPlot)+ labs(x = "timestamp ", y=sensor_type ,title = "AirParif")
 dev.off()
 register_google(key = "AIzaSyBd4BvkehJr6z4Umr9yh83WY4C2FC0XwXk")
 png(filename="map.png",width=500,height=500)# operning or creating the png file
 lx_map <- get_map(location = c(2.3272305000000415 ,48.8635517), maptype = "roadmap", zoom = 15)
-ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color='red')
+ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color=colorPlot)
 dev.off()
 dbDisconnect(con)
 

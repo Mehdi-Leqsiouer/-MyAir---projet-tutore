@@ -197,6 +197,13 @@
 													<option value="bc"  > bc</option>
 												</select> 
 												<br>
+												Plot Color:<select name='plotColor' class=button5  > 
+													<option value="red" > Red</option>
+													<option value="green" > Green</option>
+													<option value="blue" > Blue</option>
+													<option value="black" > Black</option>
+												</select> 
+												<br>
 												
 												<input type='submit' value='submit' >
 												
@@ -223,7 +230,8 @@
 													$end=$e[0]." ".$e[1];
 													$sensorBox=$_POST['sensorBox'];
 													$sensorType=$_POST['sensorType'];
-													$number=$start." ".$end." ".$sensorBox." ".$sensorType;
+													$color = $_POST['plotColor'];
+													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color;
 													
 													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
 													
