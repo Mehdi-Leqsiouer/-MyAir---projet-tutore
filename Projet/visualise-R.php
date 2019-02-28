@@ -201,7 +201,9 @@
 												<input type='submit' value='submit' >
 												
 											</form>
-											<a href="MyData.csv" ><button>Download</button></a>
+											<a href="MyData.csv" ><button>Download CSV</button></a>											
+											<a href="map.png" download='map.png'><button>Download Map</button></a>
+											<a href="plot.png" download='plot.png'><button>Download Plot</button></a>
 										</div>
 										
 									</section>
