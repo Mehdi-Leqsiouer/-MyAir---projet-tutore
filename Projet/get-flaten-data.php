@@ -184,8 +184,38 @@
 								
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node ");
 								
+								if(isset($_POST['minTemp']))
+									$minTemp=$_POST['minTemp'];
+								else
+								//$minTemp=pg_exec($dbcpolluscope,"select min(temperature) from flaten_all_data");
+								$minTemp=0;
+								if(isset($_POST['maxTemp']))
+									$maxTemp=$_POST['maxTemp'];
+								else
+								//$maxTemp=pg_exec($dbcpolluscope,"select max(temperature) from flaten_all_data");
+								$maxTemp=10000;
 								
+								if(isset($_POST['minHum']))
+									$minHum=$_POST['minHum'];
+								else
+								//$minHum=pg_exec($dbcpolluscope,"select min(humidity) from flaten_all_data");
+								$minHum=0;
+								if(isset($_POST['maxHum']))
+									$maxHum=$_POST['maxHum'];
+								else
+								//$maxHum=pg_exec($dbcpolluscope,"select max(humidity) from flaten_all_data");
+								$maxHum=10000;
 								
+								if(isset($_POST['minPress']))
+									$minPress=$_POST['minPress'];
+								else
+								//$minPress=pg_exec($dbcpolluscope,"select min(pressure) from flaten_all_data");
+								$minPress=0;
+								if(isset($_POST['maxPress']))
+									$maxPress=$_POST['maxPress'];
+								else
+								//$maxPress=pg_exec($dbcpolluscope,"select max(pressure) from flaten_all_data");
+								$maxPress=10000;
 								
 								pg_exec($dbcpolluscope, "CREATE TABLE if not exists \"Tabletemporary\"
 										(
@@ -216,9 +246,7 @@
 								
 								<div class=\"content\">
 								
-								<header align=left >
-								
-								
+								<header id=\"filtres\" align=left >
 								
 								<form action='' method=POST >
 								
@@ -228,7 +256,7 @@
 								
 								<strong><font color=#e60000>End</strong> <br>
 								Date : <input type=date name='end' value=$end style='margin-left: 5px' > <br> 
-								Hour : <input type=number name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ><br><br></font>
+								Hour : <input type=number name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ><br><br><br></font>
 								
 								<font color=#e60000>Canarin Sensor:</font>
 								<select class=button3 style=\"width:200px;\" name='DeviceID[]' multiple >	";
@@ -248,6 +276,23 @@
 										?> </option>
 									<?php }	
 								echo "</select>
+								
+								</header>
+								
+								<header id=\"filtres\" align=left>
+								
+								
+								<strong><font color=#e60000>Temperature</strong> <br>
+								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+								Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+								
+								<strong><font color=#e60000>Humidity</strong> <br>
+								Min : <input type=number name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+								Max : <input type=number name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+								
+								<strong><font color=#e60000>Pressure</strong> <br>
+								Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+								Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
 								
 								</header>
 								
@@ -313,9 +358,9 @@
 								
 								$fp = fopen('polluscope-data.csv', 'w');
 								
-								fwrite($fp, "id, timestamp, node_id, node_name, gps_lat, gps_lng, gps_alt, temperatre, humidity, pressure, pm2.5, pm10, pm1.0, formaldehyde, no2,bc\n");
+								fwrite($fp, "id, timestamp, node_id, node_name, gps_lat, gps_lng, gps_alt, temperature, humidity, pressure, pm2.5, pm10, pm1.0, formaldehyde, no2,bc\n");
 								
-								if($query0 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and \"timestamp\" BETWEEN '$start1' and '$end1' order by id DESC ) as p  order by id asc  "))
+								if($query0 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC ) as p  order by id asc  "))
 								{
 									while ($row = pg_fetch_array($query0)) {
 										
@@ -333,7 +378,7 @@
 									
 								} // End of query IF.
 								
-								if($query2 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and \"timestamp\" BETWEEN '$start1' and '$end1' order by id DESC LIMIT 100 ) as p  order by id asc  "))
+								if($query2 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC LIMIT 100 ) as p  order by id asc  "))
 								
 								{
 									
@@ -446,7 +491,7 @@
 								
 								
 								
-								if($query3 = pg_exec($dbcpolluscope, "select count(*) from(select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and \"timestamp\" BETWEEN '$start1' and '$end1' order by id) as a   "))
+								if($query3 = pg_exec($dbcpolluscope, "select count(*) from(select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id) as a   "))
 								
 								{
 									
@@ -454,7 +499,7 @@
 									
 									
 									
-									if($query1 = pg_exec($dbcpolluscope,"select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and \"timestamp\" BETWEEN '$start1' and '$end1' order by id "))
+									if($query1 = pg_exec($dbcpolluscope,"select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id "))
 									
 									{
 										
@@ -565,7 +610,7 @@
 										
 										print '<p style="color: red;">Could not run the query:<br />' .
 										
-										'.</p><p> <i>select * from flaten_all_data where \"timestamp\" BETWEEN $start1 and $end1 order by id    </i> on Polluscope DB</p>';
+										'.</p><p> <i>select * from flaten_all_data where (\"timestamp\" BETWEEN $start1 and $end1) and (temperature BETWEEN $minTemp and $maxTemp) and (humidity BETWEEN $minHum and $maxHum) and (pressure BETWEEN $minPress and $maxPress) order by id    </i> on Polluscope DB</p>';
 										
 									}
 									
@@ -577,7 +622,7 @@
 									
 									print '<p style="color: red;">Could not run the query:<br />' .
 									
-									'.</p><p> <i>select count(*) from(select * from flaten_all_data where \"timestamp\" BETWEEN $start1 and $end1 order by id) as a    </i> on Polluscope DB</p>';
+									'.</p><p> <i>select count(*) from(select * from flaten_all_data where (\"timestamp\" BETWEEN $start1 and $end1) and (temperature BETWEEN $minTemp and $maxTemp) and (humidity BETWEEN $minHum and $maxHum) and (pressure BETWEEN $minPress and $maxPress) order by id) as a    </i> on Polluscope DB</p>';
 									
 								} // End of query IF.
 								
@@ -595,6 +640,20 @@
 								$now->modify("-1 day");
 								$start=$now->format("Y-m-d");
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node  ");
+								//$minTemp=pg_exec($dbcpolluscope,"select min(temperature) from flaten_all_data");
+								$minTemp=0;
+								//$maxTemp=pg_exec($dbcpolluscope,"select max(temperature) from flaten_all_data");
+								$maxTemp=10000;
+								
+								//$minHum=pg_exec($dbcpolluscope,"select min(humidity) from flaten_all_data");
+								$minHum=0;
+								//$maxHum=pg_exec($dbcpolluscope,"select max(humidity) from flaten_all_data");
+								$maxHum=10000;
+								
+								//$minPress=pg_exec($dbcpolluscope,"select min(pressure) from flaten_all_data");
+								$minPress=0;
+								//$maxPress=pg_exec($dbcpolluscope,"select max(pressure) from flaten_all_data");
+								$maxPress=10000;
 								
 								echo " <div class=\"highlights\">
 								
@@ -602,7 +661,7 @@
 								
 								<div class=\"content\">
 								
-								<header align=left >
+								<header id=\"filtres\" align=left >
 								
 								
 								
@@ -614,7 +673,7 @@
 								
 								<strong><font color=#e60000>End</strong> <br>
 								Date : <input type=date name='end' value=$end style='margin-left: 5px' > <br> 
-								Hour : <input type=number name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ><br><br></font>
+								Hour : <input type=number name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ><br><br><br></font>
 								
 								<font color=#e60000>Canarin Sensor:</font>
 								<select class=button3 style=\"width:200px;\" name='DeviceID[]' multiple >	";
@@ -634,6 +693,23 @@
 										?> </option>
 									<?php }	
 								echo "</select>
+								
+								</header>
+								
+								<header id=\"filtres\" align=left>
+								
+								
+								<strong><font color=#e60000>Temperature</strong> <br>
+								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+								Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+								
+								<strong><font color=#e60000>Humidity</strong> <br>
+								Min : <input type=number name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+								Max : <input type=number name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+								
+								<strong><font color=#e60000>Pressure</strong> <br>
+								Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+								Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
 								
 								</header>
 								
