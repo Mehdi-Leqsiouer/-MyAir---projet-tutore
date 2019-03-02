@@ -697,7 +697,7 @@
 								</header>
 								
 								<header id=\"filtres\" align=left>
-								
+								<button type ='button' id = 'test'>+</button><br>
 								
 								<strong><font color=#e60000>Temperature</strong> <br>
 								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
@@ -716,7 +716,7 @@
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
-								<button type ='button' id = 'test'>+</button>
+								
 
 								</header>
 								
