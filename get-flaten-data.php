@@ -34,11 +34,13 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
 
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 
 		<script>
 
@@ -212,7 +214,7 @@
 								
 								$end1=$end." ".$hourEnd.":"."00";
 								
-								//$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node "); COMMENTER
+								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node ");
 								
 								if(isset($_POST['minTemp']))
 									$minTemp=$_POST['minTemp'];
@@ -648,24 +650,15 @@
                         <input type=\"text\" id=\"dateTimePicker\" class=\"form-control\" value=\"\"/>
                   </div>
 								
-								<font color=#e60000>Canarin Sensor:</font>
-								<select class=button3 style=\"width:200px;\" name='DeviceID[]' multiple >	";
+
+
+								<font style= 'display:block; font-weight:bold;' color=#e60000>Canarin Sensor:</font>
+								<select id= 'device_id' class='button3 custom-select' style=\"width:200px;\" name='DeviceID[]' multiple= 'multiple' >	";
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
 									<?php }	
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node  ");
-								echo "</select>
-								<select id = 'test' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
-									
-									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
-										<option value=<?php echo $NameDevice[0];?> >
-										<?php 
-
-										echo $NameDevice[1]; 
-										?> </option>
-									<?php }	
-
 								echo "</select>
 								
 								</header>
