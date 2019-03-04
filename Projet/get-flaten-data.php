@@ -31,6 +31,12 @@
 		<link rel="stylesheet" href="assets/css/main1.css" />
 		
 		<link rel="stylesheet" href="assets/css/m.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 		
 	</head>
 	
@@ -133,13 +139,8 @@
 				
 				
 				<?php
-					
-					
-					
-					
-					
 					// if ($dbcpolluscope = pg_Connect("host=193.55.95.225 port=25432 dbname=polluscope user=docker password=docker"))
-					if ($dbcpolluscope = pg_Connect("host=localhost port=5432 dbname=polluscope user=postgres password=12345678 "))
+					if ($dbcpolluscope = pg_Connect("host=localhost port=5432 dbname=polluscope user=vgbaguid password=123456789 "))
 					
 					{  
 						
@@ -152,12 +153,10 @@
 							
 							{    
 							
-								if (isset($_POST['DeviceID'])) {
-								$sensor_ids=$_POST['DeviceID'];
+								if (isset($_POST['DeviceID'])) { //Apport Modification 
+									$sensor_ids= join("','", $_POST['DeviceID']);
 								}
-								if (isset($_POST['DeviceID2'])) {
-								$sensor_ids2=$_POST['DeviceID2'];
-								}
+
 						        $start=$_POST['start'];//result of formt yyyy-mm-ddThh:ii:ss
 								
 								$end=$_POST['end'];	
@@ -216,39 +215,16 @@
 								else
 								//$maxPress=pg_exec($dbcpolluscope,"select max(pressure) from flaten_all_data");
 								$maxPress=10000;
-								
-								pg_exec($dbcpolluscope, "CREATE TABLE if not exists \"Tabletemporary\"
-										(
-										\"Id\" serial,
-										\"sensor_id\" bigint,
-										CONSTRAINT \"Tabletemporary_pkey\" PRIMARY KEY (\"Id\")
-										)" );
-									
-								if (isset($_POST['DeviceID'])) {
-							    foreach ($sensor_ids as $sensor_id )
-								{
-								pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) 
-								VALUES($sensor_id)");
-								}
-								}
-								
-								if (isset($_POST['DeviceID2'])) {
-								foreach ($sensor_ids2 as $sensor_id )
-								{
-								pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) 
-								VALUES($sensor_id)");
-								}
-								}
-				
+
 								echo " <div class=\"highlights\">
 								
 								<section  float=right>
-								
+
 								<div class=\"content\">
 								
 								<header id=\"filtres\" align=left >
 								
-								<form action='' method=POST >
+								<form method=POST >
 								
 								<strong><font color=#e60000>Start</strong> <br>
 								Date : <input type=date  name='start' value=$start > <br>
@@ -258,15 +234,8 @@
 								Date : <input type=date name='end' value=$end style='margin-left: 5px' > <br> 
 								Hour : <input type=number name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ><br><br><br></font>
 								
-								<font color=#e60000>Canarin Sensor:</font>
-								<select class=button3 style=\"width:200px;\" name='DeviceID[]' multiple >	";
-									
-									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
-										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
-									<?php }	
-								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node ");
-								echo "</select>								
-								<select id = 'test2' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
+								<font style= 'display:block; font-weight:bold;' color=#e60000>Canarin Sensor:</font>
+								<select class= 'button3 custom-select' style='width:200px;' name='DeviceID[]' multiple= 'multiple' >	";
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> >
@@ -275,31 +244,39 @@
 										?> </option>
 									<?php }	
 								echo "</select>
+
+									<div class= 'extra_options' style= 'display: none;'>
+										<strong><font color=#e60000>Temperature</strong> <br>
+										Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+										Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+										
+										<strong><font color=#e60000>Humidity</strong> <br>
+										Min : <input type=number name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+										Max : <input type=number name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+										
+										<strong><font color=#e60000>Pressure</strong> <br>
+										Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+										Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
+									</div>
+								</header>";
+
+								?>
 								
-								</header>
 								
-								<header id=\"filtres\" align=left>
-								
-								
-								<strong><font color=#e60000>Temperature</strong> <br>
-								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
-								Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
-								
-								<strong><font color=#e60000>Humidity</strong> <br>
-								Min : <input type=number name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
-								Max : <input type=number name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
-								
-								<strong><font color=#e60000>Pressure</strong> <br>
-								Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
-								Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
-								
-								</header>
-								
+								<!-- CE header EST L'ENDROIT OU SERA INSERE LE TABLEAU-->
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
-								<button type ='button' id = 'test'>+</button>								
+								<button type ='button' class = 'more_options'>More Options</button>
 								
+								<script>
+								// A COMPLETER
+									$(".more_options").click(function(){
+										$(".extra_options").show();
+									});
+
+								</script>
+
 								</header>
 								
 								</form>
@@ -316,8 +293,10 @@
 								<div class=\"content\">
 								
 								<header>
-								
-								<a href=\"polluscope-data.csv\" class=\"icon fa-floppy-o\"><span class=\"label\">Icon</span></a>
+
+								<header>
+
+								<a href="polluscope-data.csv" class='icon fa-floppy-o'><span class='label'>Icon</span></a>
 								
 								<h3> Download all rows Between:<br> $start1 and $end1 </h3>
 								
@@ -325,26 +304,12 @@
 								
 								</div>
 								
-								</section>";
-								?>
-								<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
-								<script>
-								$(document).ready (function() {
-									$("button").click(function(){
-										$("#test2").show();
-										$cptr +=1;
-									});
-								});
-								</script>
+								</section>
+
+								</div>								
 								<?php
 								
-								
-								
-								echo " </div>";
-								
-								
-								
-								//creat a csv file
+								//creatE a csv file
 								
 								if (!file_exists('polluscope-data.csv'))
 								
@@ -355,10 +320,9 @@
 								}
 								
 								$fp = fopen('polluscope-data.csv', 'w');
-								
 								fwrite($fp, "id, timestamp, node_id, node_name, gps_lat, gps_lng, gps_alt, temperature, humidity, pressure, pm2.5, pm10, pm1.0, formaldehyde, no2,bc\n");
 								
-								if($query0 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC ) as p  order by id asc  "))
+								if($query0 = pg_exec($dbcpolluscope,"select *,ST_AsGeoJSON(geom) as geojson from flaten_all_data where node_id IN ('$sensor_ids') and \"timestamp\" BETWEEN '$start' and '$end' and temperature BETWEEN '$minTemp' and '$maxTemp' and humidity BETWEEN '$minHum' and '$maxHum' and pressure BETWEEN '$minPress' and '$maxPress' order by id  "))
 								{
 									while ($row = pg_fetch_array($query0)) {
 										
@@ -376,7 +340,7 @@
 									
 								} // End of query IF.
 								
-								if($query2 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC LIMIT 100 ) as p  order by id asc  "))
+							if($query2 = pg_exec($dbcpolluscope,"select *,ST_AsGeoJSON(geom) as geojson from flaten_all_data where node_id IN ('$sensor_ids') and \"timestamp\" BETWEEN '$start' and '$end' and temperature BETWEEN '$minTemp' and '$maxTemp' and humidity BETWEEN '$minHum' and '$maxHum' and pressure BETWEEN '$minPress' and '$maxPress' order by id  "))
 								
 								{
 									
@@ -489,7 +453,7 @@
 								
 								
 								
-								if($query3 = pg_exec($dbcpolluscope, "select count(*) from(select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id) as a   "))
+							if($query3 = pg_exec($dbcpolluscope,"select *,ST_AsGeoJSON(geom) as geojson from flaten_all_data where node_id IN ('$sensor_ids') and \"timestamp\" BETWEEN '$start' and '$end' and temperature BETWEEN '$minTemp' and '$maxTemp' and humidity BETWEEN '$minHum' and '$maxHum' and pressure BETWEEN '$minPress' and '$maxPress' order by id  "))
 								
 								{
 									
@@ -497,7 +461,7 @@
 									
 									
 									
-									if($query1 = pg_exec($dbcpolluscope,"select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id "))
+							if($query1 = pg_exec($dbcpolluscope,"select *,ST_AsGeoJSON(geom) as geojson from flaten_all_data where node_id IN ('$sensor_ids') and \"timestamp\" BETWEEN '$start' and '$end' and temperature BETWEEN '$minTemp' and '$maxTemp' and humidity BETWEEN '$minHum' and '$maxHum' and pressure BETWEEN '$minPress' and '$maxPress' order by id  "))
 									
 									{
 										
@@ -505,14 +469,10 @@
 										
 										while($row = pg_fetch_array($query1))
 										$arr[]=$row;
-										
-										
-										
+
 									?>
 									
-									
-									
-									<select id=foo  class=button2  onchange="myFunction(this)";></select>
+									<select id= 'foo'  class='button2'  onchange="myFunction(this);"></select>
 									
 									<script>//code from google
 										
@@ -547,13 +507,7 @@
 										}());
 										
 									</script>
-									
-									
-									
-									
-									
-									<script src="http://code.jquery.com/jquery-1.9.1.js" ></script>		
-									
+
 									<script>
 										
 									
@@ -585,20 +539,11 @@
 												
 												'</tr><tr>'		
 												
-												
-												
 												);
 												
-												
-												
-												
-												
 											}
-											
 										
 										}
-										
-										
 										
 									</script>
 									
@@ -624,7 +569,6 @@
 									
 								} // End of query IF.
 								
-								pg_exec($dbcpolluscope, "drop table \"Tabletemporary\" ");	
 								
 							}// fin de if(isset($_POST['start']) && isset($_POST['end']))
 							
@@ -659,9 +603,8 @@
 								
 								<div class=\"content\">
 								
+
 								<header id=\"filtres\" align=left >
-								
-								
 								
 								<form action='' method=POST >
 								
@@ -673,29 +616,22 @@
 								Date : <input type=date name='end' value=$end style='margin-left: 5px' > <br> 
 								Hour : <input type=number name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ><br><br><br></font>
 								
-								<font color=#e60000>Canarin Sensor:</font>
-								<select class=button3 style=\"width:200px;\" name='DeviceID[]' multiple >	";
+								<font style= 'display:block; font-weight:bold;' color=#e60000>Canarin Sensor:</font>
+								<select id = 'test' class='button3 custom-select' style='width:200px;' name='DeviceID[]' multiple= 'multiple' >	";
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
 									<?php }	
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node  ");
-								echo "</select>
-								<select id = 'test' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
-									
-									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
-										<option value=<?php echo $NameDevice[0];?> >
-										<?php 
-										echo $NameDevice[1]; 
-										?> </option>
-									<?php }	
+
 								echo "</select>
 								
 								</header>
 								
 								<header id=\"filtres\" align=left>
-								<button type ='button' id = 'test'>+</button><br>
+								<button type ='button' class = 'more_options'>More Options</button><br>
 								
+								<div class= 'extra_options' style= 'display: none;'>
 								<strong><font color=#e60000>Temperature</strong> <br>
 								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
 								Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
@@ -707,13 +643,14 @@
 								<strong><font color=#e60000>Pressure</strong> <br>
 								Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
 								Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
-								
+								</div>
 								</header>
 								
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
 								
+
 								</header>
 								
 								</form>
@@ -730,7 +667,7 @@
 								
 								<header>
 								
-								<a href=\"#\" class=\"icon fa-files-o\"><span class=\"label\">Icon</span></a>
+								<a href='#\' class='icon fa-files-o'><span class='label'>Icon</span></a>
 								
 								<h3>number of all rows : $nb[0] </h3>					
 								
@@ -740,13 +677,12 @@
 								
 								</section>";
 								?>
-								<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 								<script>
-								$(document).ready (function() {
-									$("button").click(function(){
-										$("#test").show();
+								// A COMPLETER
+									$(".more_options").click(function(){
+										$(".extra_options").show();
 									});
-								});
+
 								</script>
 								<?php
 								
@@ -1015,3 +951,5 @@
 				</body>
 				
 				</html>
+				
+								
