@@ -140,7 +140,7 @@
 				
 				<?php
 					// if ($dbcpolluscope = pg_Connect("host=193.55.95.225 port=25432 dbname=polluscope user=docker password=docker"))
-					if ($dbcpolluscope = pg_Connect("host=localhost port=5432 dbname=polluscope user=vgbaguid password=123456789 "))
+					if ($dbcpolluscope = pg_Connect("host=localhost port=5432 dbname=polluscope user=postgres password=12345678 "))
 					
 					{  
 						
