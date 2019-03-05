@@ -16,7 +16,7 @@ colorPlot<-args[7]
 #end_date<-"2018-02-20 18:10"
 #sensor_box<-4317218322204134
 #sensor_type<-"pm1.0"
-#colorPlot<-"green"
+#colorPlot<-"black"
 #.libPaths('C:/Users/android/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
 require('ggplot2')
@@ -45,8 +45,9 @@ p + geom_point(color=colorPlot)+ labs(x = "timestamp ", y=sensor_type ,title = "
 dev.off()
 register_google(key = "AIzaSyBd4BvkehJr6z4Umr9yh83WY4C2FC0XwXk")
 png(filename="map.png",width=500,height=500)# operning or creating the png file
-lx_map <- get_map(location = c(2.3272305000000415 ,48.8635517), maptype = "roadmap", zoom = 15)
-ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color=colorPlot)
+lx_map <- get_map(location = c(2.3272305000000415 ,48.8635517), maptype = "roadmap", zoom = 12)
+#ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=2.3272305000000415, y=48.8635517),size=4, color=colorPlot)
+ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color='black')
 dev.off()
 dbDisconnect(con)
 
