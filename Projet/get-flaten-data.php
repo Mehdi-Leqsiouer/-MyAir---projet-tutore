@@ -282,16 +282,16 @@
 								
 								
 								<strong><font color=#e60000>Temperature</strong> <br>
-								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
-								Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+								Max : <input type=number step = '0.1' name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
 								
 								<strong><font color=#e60000>Humidity</strong> <br>
-								Min : <input type=number name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
-								Max : <input type=number name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+								Min : <input type=number step = '0.1' name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+								Max : <input type=number step = '0.1' name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
 								
 								<strong><font color=#e60000>Pressure</strong> <br>
-								Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
-								Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
+								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
 								
 								</header>
 								
@@ -319,14 +319,14 @@
 								
 								<a href=\"polluscope-data.csv\" class=\"icon fa-floppy-o\"><span class=\"label\">Icon</span></a>
 								
-								<h3> Download all rows Between:<br> $start1 and $end1 </h3>
-								
+								<h3> Download all rows Between:<br> $start1 and $end1 </h3>								
 								</header>											
 								
 								</div>
 								
-								</section>";
+								</section>";								
 								?>
+			
 								<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 								<script>
 								$(document).ready (function() {
@@ -379,10 +379,11 @@
 								if($query2 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC LIMIT 100 ) as p  order by id asc  "))
 								
 								{
-									
+									$nb = pg_num_rows($query2);
 									echo "<div id=\"div2\"><table id=\"table2\" style=width:1%; >
 									
 									<caption><h2 align=center> table flaten_all_data @ Polluscope DB </h2></caption>
+									<h3> Number of row : $nb</h3>
 									
 									<tr>
 									
@@ -638,20 +639,21 @@
 								$now->modify("-1 day");
 								$start=$now->format("Y-m-d");
 								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node  ");
-								//$minTemp=pg_exec($dbcpolluscope,"select min(temperature) from flaten_all_data");
-								$minTemp=0;
-								//$maxTemp=pg_exec($dbcpolluscope,"select max(temperature) from flaten_all_data");
-								$maxTemp=10000;
 								
-								//$minHum=pg_exec($dbcpolluscope,"select min(humidity) from flaten_all_data");
-								$minHum=0;
-								//$maxHum=pg_exec($dbcpolluscope,"select max(humidity) from flaten_all_data");
-								$maxHum=10000;
+								$requeteBornes=pg_exec($dbcpolluscope,"select min(temperature),max(temperature),min(humidity),max(humidity),min(pressure),max(pressure) from flaten_all_data");
+								$bornes = pg_fetch_array($requeteBornes);
 								
-								//$minPress=pg_exec($dbcpolluscope,"select min(pressure) from flaten_all_data");
-								$minPress=0;
-								//$maxPress=pg_exec($dbcpolluscope,"select max(pressure) from flaten_all_data");
-								$maxPress=10000;
+								$minTemp=$bornes[0];
+							
+								$maxTemp=$bornes[1];
+								
+								$minHum=$bornes[2];
+								
+								$maxHum=$bornes[3];								
+								
+								$minPress=$bornes[4];
+								
+								$maxPress=$bornes[5];
 								
 								echo " <div class=\"highlights\">
 								
@@ -697,16 +699,16 @@
 								<button type ='button' id = 'test'>+</button><br>
 								
 								<strong><font color=#e60000>Temperature</strong> <br>
-								Min : <input type=number name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
-								Max : <input type=number name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+								Max : <input type=number step = '0.1' name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
 								
 								<strong><font color=#e60000>Humidity</strong> <br>
-								Min : <input type=number name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
-								Max : <input type=number name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+								Min : <input type=number step = '0.1' name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+								Max : <input type=number step = '0.1' name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
 								
 								<strong><font color=#e60000>Pressure</strong> <br>
-								Min : <input type=number name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
-								Max : <input type=number name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
+								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
 								
 								</header>
 								
