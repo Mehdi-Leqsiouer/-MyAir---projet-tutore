@@ -155,9 +155,7 @@
 								if (isset($_POST['DeviceID'])) {
 								$sensor_ids=$_POST['DeviceID'];
 								}
-								if (isset($_POST['DeviceID2'])) {
-								$sensor_ids2=$_POST['DeviceID2'];
-								}
+								
 						        $start=$_POST['start'];//result of formt yyyy-mm-ddThh:ii:ss
 								
 								$end=$_POST['end'];	
@@ -232,13 +230,6 @@
 								}
 								}
 								
-								if (isset($_POST['DeviceID2'])) {
-								foreach ($sensor_ids2 as $sensor_id )
-								{
-								pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) 
-								VALUES($sensor_id)");
-								}
-								}
 				
 								echo " <div class=\"highlights\">
 								
@@ -263,17 +254,8 @@
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
-									<?php }	
-								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node ");
-								echo "</select>								
-								<select id = 'test2' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
-									
-									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
-										<option value=<?php echo $NameDevice[0];?> >
-										<?php 
-										echo $NameDevice[1]; 
-										?> </option>
-									<?php }	
+									<?php }									
+								
 								echo "</select>
 								
 								</header>
@@ -298,7 +280,7 @@
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
-								<button type ='button' id = 'test'>+</button>								
+														
 								
 								</header>
 								
@@ -327,15 +309,6 @@
 								</section>";								
 								?>
 			
-								<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
-								<script>
-								$(document).ready (function() {
-									$("button").click(function(){
-										$("#test2").show();
-										$cptr +=1;
-									});
-								});
-								</script>
 								<?php
 								
 								
@@ -680,23 +653,13 @@
 									
 									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
 										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
-									<?php }	
-								$getAirparif=pg_exec($dbcpolluscope,"select id,name from unified_node  ");
-								echo "</select>
-								<select id = 'test' class=button3 style=\"width:200px;display:none;\" name='DeviceID2[]' multiple >	";
-									
-									while( $NameDevice=pg_fetch_array($getAirparif) ) {?>
-										<option value=<?php echo $NameDevice[0];?> >
-										<?php 
-										echo $NameDevice[1]; 
-										?> </option>
-									<?php }	
+									<?php }								
 								echo "</select>
 								
 								</header>
 								
 								<header id=\"filtres\" align=left>
-								<button type ='button' id = 'test'>+</button><br>
+								
 								
 								<strong><font color=#e60000>Temperature</strong> <br>
 								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
@@ -742,14 +705,7 @@
 								
 								</section>";
 								?>
-								<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
-								<script>
-								$(document).ready (function() {
-									$("button").click(function(){
-										$("#test").show();
-									});
-								});
-								</script>
+								
 								<?php
 								
 								
