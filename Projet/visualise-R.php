@@ -204,6 +204,14 @@
 													<option value="black" > Black</option>
 												</select> 
 												<br>
+													Plot Type:
+													<select name='plotType' class=button5>
+														<option value="point" > Point </option>
+														<option value="colonne" > Colonne </option>
+														<option value="courbe" > Courbe </option>
+														<option value="moyenne" > Moyenne en courbe</option>
+													</select>
+												<br>
 												
 												<input type='submit' value='submit' >
 												
@@ -231,12 +239,13 @@
 													$sensorBox=$_POST['sensorBox'];
 													$sensorType=$_POST['sensorType'];
 													$color = $_POST['plotColor'];
-													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color;
-													
-													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
+													$type = $_POST['plotType'];
+													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color." ".$type;
+
+													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/Projet/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
 													
 													$var=rand();
-													#exec("R CMD BATCH polluscope.R ".$number ); 
+													exec("R CMD BATCH polluscope.R ".$number ); 
 													echo "<img src='map.png?$var' width=500px height=350px >";
 												
 												?>
