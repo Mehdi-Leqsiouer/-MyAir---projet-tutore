@@ -183,13 +183,13 @@
 												Start Date:<input type="datetime-local"  name='start' value=<?php echo $start ?> ><br>
 												End Date:<br><input type="datetime-local" name='end' value=<?php echo $end ?>  ><br>
 												
-												Sensors Box:<select name='sensorBox'  > 
+												Sensors Box:<select name='sensorBox'  style="width:107%"> 
 													<?php while($row=pg_fetch_array($queryId)) { ?>
 														<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
 													<?php } ?>
 												</select>
 												
-												Sensors Type:<select name='sensorType' class=button5  > 
+												Sensors Type:<select name='sensorType' class=button5 style="width:107%" > 
 													<option value="pm1.0" > pm1.0</option>
 													<option value="pm10"  > pm10</option>
 													<option value="pm2.5"  > pm2.5</option>
@@ -197,7 +197,7 @@
 													<option value="bc"  > bc</option>
 												</select> 
 												<br>
-												Plot Color:<select name='plotColor' class=button5  > 
+												Plot Color:<select name='plotColor' class=button5 style="width:107%" > 
 													<option value="red" > Red</option>
 													<option value="green" > Green</option>
 													<option value="blue" > Blue</option>
@@ -205,7 +205,7 @@
 												</select> 
 												<br>
 													Plot Type:
-													<select name='plotType' class=button5>
+													<select name='plotType' class=button5 style="width:107%">
 														<option value="point" > Point </option>
 														<option value="colonne" > Colonne </option>
 														<option value="courbe" > Courbe </option>
@@ -256,7 +256,7 @@
 											
 											<div class=content >
 											    <header>
-												<?php echo "<img src='plot.png?$var' width=500px height=350px > "; }
+												<?php echo "<img src='plot.png?$var' width=500 height=350px > "; }
 												
 												else{
 													
