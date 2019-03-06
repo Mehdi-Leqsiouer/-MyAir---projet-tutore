@@ -65,6 +65,8 @@ color:black;
 cellspacing:0px;
 cellpadding:10px;
 height:1%;
-
-
+}
+#filtres{
+	display:inline-block;
+	margin-right:50px;
 }
