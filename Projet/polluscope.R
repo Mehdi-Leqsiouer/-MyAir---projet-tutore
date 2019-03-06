@@ -5,7 +5,7 @@
 #library(ggplot2)
 #library(ggthemes)
 
-setwd("C:/polluscope/Projet")
+setwd("C:/polluscope")
 args <- commandArgs(TRUE)
 start_date<-paste(args[1],args[2],sep=" ")
 end_date<-paste(args[3],args[4],sep=" ")
@@ -19,7 +19,7 @@ typePlot<-args[8]
 #sensor_box<-4317218322204134
 #sensor_type<-"pm1.0"
 #colorPlot<-"red"
-.libPaths('C:/Users/florian.marques/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
+#.libPaths('C:/Users/florian.marques/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
 require('ggplot2')
 require('ggmap')

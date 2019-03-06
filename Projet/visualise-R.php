@@ -242,7 +242,7 @@
 													$type = $_POST['plotType'];
 													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color." ".$type;
 
-													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/Projet/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
+													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
 													
 													$var=rand();
 													exec("R CMD BATCH polluscope.R ".$number ); 
