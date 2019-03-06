@@ -697,12 +697,12 @@ table.alt tbody tr td {
     padding-right: 0; }
   .highlights > :nth-child(3n + 1),
   .highlights > :nth-child(3n) {
-    width: 650px;
+    width: 60%;
 	float:right;}
   .highlights .content {
     border-radius: 4px;
     height: 100%;
-    padding: 3rem;
+    padding: 1rem;
     text-align: center; }
     .highlights .content .icon {
       font-size: 5rem; }
