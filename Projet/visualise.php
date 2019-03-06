@@ -1,10 +1,11 @@
-
 <html>
   <head>
+
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 		
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
@@ -19,21 +20,33 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
     crossorigin=""/>
-
+<!--
     <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
     integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
     crossorigin=""></script>
+-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
+    <link rel="stylesheet" href= "assets/css/visualise_php.css">
+
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+			integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+			crossorigin=""/>
+		<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+			integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+			crossorigin=""></script>
+
+		<script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
   </head>	
 
-	
+
+
   <script>
 
   var gVars={} // Global Varaibels
@@ -57,6 +70,7 @@
 	  a["3566907763371345"] = "AirParif8";
 	  a["35669077213271345"] = "AirParif9";
 
+
   function getData(){
     $.ajax({
             type: "GET",
@@ -69,7 +83,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function OnPopulateControl(response) {
+
                 gVars.currentData = response;
+				alert(JSON.stringify(gVars.currentData))//.getItem('GeoJSON'));
                  console.log(response);
                 refreshMap();
                 refreshChart();
@@ -135,8 +151,10 @@
   function refreshMap(){
     if(gVars.currentData!=""){
 
-      GeoJSON = gVars.currentData.map(getGeoJSON)
+      GeoJSON = gVars.currentData.map(getGeoJSON);//(gVars.currentData));
 
+			//console.log(gVars.currentData.map(getGeoJSON));
+			//alert(JSON.stringify(GeoJSON));
       var geojsonMarkerOptions = {
           radius: 2,
           fillColor: "#AF0000",
@@ -146,13 +164,15 @@
           fillOpacity: 0.5
       };
 
-      var PointsLayer = L.geoJson(GeoJSON, {
+			//console.log(GeoJSON);
+      var PointsLayer = L.geoJSON(GeoJSON, {
           pointToLayer: function (feature, latlng) {
               return L.circleMarker(latlng, geojsonMarkerOptions);
           }
-      });
+      }).addTo(map);
 
-      gVars.sensorsMap.addLayer(PointsLayer)
+      gVars.sensorsMap.addLayer(PointsLayer);
+			//PointsLayer.addTo(map);
     } else { alert("No Data Available")}
   }
 
@@ -193,7 +213,8 @@
   }
 
   function getGeoJSON(tupple){
-    return JSON.parse(tupple['GeoJSON'])
+		//console.log(JSON.parse(tupple['GeoJSON']));
+    return JSON.parse(tupple['GeoJSON']);
   }
 
   function getNodeIdTimestampAttribute(attribute){ //TODO check formaldehyde select value is the same as in data
@@ -279,6 +300,52 @@
 
 
  <body>		
+		    
+    <!-- Header -->
+
+    <header id="header">
+
+      <a class="logo" href="index.php">Polluscope</a>
+
+      <nav>
+        <a href="#menu">Menu</a>
+      </nav>
+
+    </header>
+    <!-- Nav -->
+
+
+    <nav id="menu">
+
+      <ul class="links">
+
+        <b>Acquisition</b>
+
+        <li><a href="get-flaten-data.php">Access and Filter </a></li>
+        <li><a href="visualise-R.php">Filter and Visualise </a></li>
+        <li><a href="visualise.php">Filter and Visualise V2 </a></li>
+        <li><a href="upload-AE51.php">Upload AE51&Update canarin</a></li>	
+        <li><a href="upload-cairsens.php">Upload Cairs&Update canarin</a></li>
+        <li><a href="link-canarin-cairsens.php">Link Canarin-Cairsens</a></li>
+        <li><a href="link-canarin-AE51.php">Link Canarin-AE51</a></li>
+
+        <b>QUALIFICATION</b>
+
+        <li><a href="upload-AE51-for-qualification.php">Upload AE51</a></li>	
+        <li><a href="upload-cairsens-for-qualification.php">Upload Cairsens</a></li>
+        <li><a href="upload-teom.php">Upload TEOM</a></li>	
+        <li><a href="upload-fidas.php">Upload FIDAS</a></li>	
+        <li><a href="upload-actris.php">Upload ACTRIS</a></li>
+        <li><a href="upload-aethalometer.php">Upload AETHALOMETER</a></li>
+        <li><a href="canarin-teom.php">Link Canarin-TEOM</a></li>
+        <li><a href="canarin-fidas.php">Link Canarin-FIDAS</a></li>
+        <li><a href="cairsens-actris.php">Link cairsens-ACTRIS</a></li>
+        <li><a href="AE51-aethalometer.php">Link AE51-AETHALOMETER</a></li>
+
+      </ul>
+
+    </nav>
+
   
     <div class="container">
       <div class="row">
@@ -322,7 +389,6 @@
                               <input type="button" id="submit" onclick="getData()" value="Refresh" class="btn btn-primary"/><br><br>
 							  
                             </form>
-							
 						
 							
             </div>
@@ -357,6 +423,14 @@
 </div>
 
 
+		
+		<script src="assets/js/browser.min.js"></script>
+		
+		<script src="assets/js/breakpoints.min.js"></script>
+		
+		<script src="assets/js/util.js"></script>
+		
+		<script src="assets/js/main.js"></script>
 
   </body>
 
