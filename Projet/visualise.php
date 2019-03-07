@@ -1,10 +1,11 @@
+
 <html>
   <head>
-
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 		
+    <link rel="stylesheet" href= "assets/css/visualise_php.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -20,33 +21,28 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
     crossorigin=""/>
-<!--
+
     <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
     integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
     crossorigin=""></script>
--->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
-    <link rel="stylesheet" href= "assets/css/visualise_php.css">
+		<script src= "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" type="text/javascript"></script>
 
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-			integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-			crossorigin=""/>
-		<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-			integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-			crossorigin=""></script>
+<!--
+		<script src= "assets/js/chart_js_plugin_zoom.js" type= "module"></script>
+-->
+		<script src= "https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.6.6/chartjs-plugin-zoom.min.js"></script>
 
-		<script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
   </head>	
 
-
-
+	
   <script>
 
   var gVars={} // Global Varaibels
@@ -54,22 +50,21 @@
     var a = {};
       a["4317218322204134"] = "AirParif1";
       a["35669077111271345"] = "AirParif10";
-	  a["3566907742371345"] = "AirParif11";
-	  a["3566907722371345"] = "AirParif12";
-	  a["35669077252071345"] = "AirParif13";
-	  a["35669077121271345"] = "AirParif14";
-	  a["35669077192371345"] = "AirParif15";
-	  a["35669077143371345"] = "AirParif16";
-	  a["35669077272271345"] = "AirParif17";
-	  a["43152552141141345"] = "AirParif2";
-	  a["4315255293441345"] = "AirParif3";
-	  a["3566907703071345"] = "AirParif4";
-	  a["35669077103071345"] = "AirParif5";
-	  a["35669077133271345"] = "AirParif6";
-	  a["4316701852319345"] = "AirParif7";
-	  a["3566907763371345"] = "AirParif8";
-	  a["35669077213271345"] = "AirParif9";
-
+			a["3566907742371345"] = "AirParif11";
+			a["3566907722371345"] = "AirParif12";
+			a["35669077252071345"] = "AirParif13";
+			a["35669077121271345"] = "AirParif14";
+			a["35669077192371345"] = "AirParif15";
+			a["35669077143371345"] = "AirParif16";
+			a["35669077272271345"] = "AirParif17";
+			a["43152552141141345"] = "AirParif2";
+			a["4315255293441345"] = "AirParif3";
+			a["3566907703071345"] = "AirParif4";
+			a["35669077103071345"] = "AirParif5";
+			a["35669077133271345"] = "AirParif6";
+			a["4316701852319345"] = "AirParif7";
+			a["3566907763371345"] = "AirParif8";
+			a["35669077213271345"] = "AirParif9";
 
   function getData(){
     $.ajax({
@@ -83,9 +78,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function OnPopulateControl(response) {
-
                 gVars.currentData = response;
-				alert(JSON.stringify(gVars.currentData))//.getItem('GeoJSON'));
                  console.log(response);
                 refreshMap();
                 refreshChart();
@@ -151,10 +144,8 @@
   function refreshMap(){
     if(gVars.currentData!=""){
 
-      GeoJSON = gVars.currentData.map(getGeoJSON);//(gVars.currentData));
+      GeoJSON = gVars.currentData.map(getGeoJSON)
 
-			//console.log(gVars.currentData.map(getGeoJSON));
-			//alert(JSON.stringify(GeoJSON));
       var geojsonMarkerOptions = {
           radius: 2,
           fillColor: "#AF0000",
@@ -164,21 +155,20 @@
           fillOpacity: 0.5
       };
 
-			//console.log(GeoJSON);
-      var PointsLayer = L.geoJSON(GeoJSON, {
+      var PointsLayer = L.geoJson(GeoJSON, {
           pointToLayer: function (feature, latlng) {
               return L.circleMarker(latlng, geojsonMarkerOptions);
           }
-      }).addTo(map);
+      });
 
-      gVars.sensorsMap.addLayer(PointsLayer);
-			//PointsLayer.addTo(map);
+      gVars.sensorsMap.addLayer(PointsLayer)
     } else { alert("No Data Available")}
   }
 
   function refreshChart(){
 
     gVars.chartConfig.data.datasets = [];
+
 
     attributeToView = $("#attributeSelect").val()
 
@@ -191,17 +181,20 @@
 
     gVars.chartConfig.options.title.text= attributeToView + " Data"
 
+
+
     Object.keys(groupedByNodeId).forEach(function(sensorId){
+
       var colorName = gVars.colorNames[gVars.chartConfig.data.datasets.length % gVars.colorNames.length];
       var newColor = gVars.chartColors[colorName];
       dataset = {
           label: getSmallId(sensorId),
-          fill: false,
+					pointRadius: 5,
+					fill: '-1',
           data: groupedByNodeId[sensorId],
           backgroundColor: newColor,
           borderColor: newColor,
           pointBorderWidth: 0,
-          tension: 0
         };
         gVars.chartConfig.data.datasets.push(dataset);
       });
@@ -213,8 +206,7 @@
   }
 
   function getGeoJSON(tupple){
-		//console.log(JSON.parse(tupple['GeoJSON']));
-    return JSON.parse(tupple['GeoJSON']);
+    return JSON.parse(tupple['GeoJSON'])
   }
 
   function getNodeIdTimestampAttribute(attribute){ //TODO check formaldehyde select value is the same as in data
@@ -248,23 +240,66 @@
     gVars.SensorsData = "";
     gVars.sensorsMap = initMap();
     gVars.chartConfig = {
-      type: 'scatter',
+
+      type: 'line',
       data: '',
       options: {
         scales: {
-          xAxes: [{
-          type: 'time',
-          distribution: 'linear',
-          time: {
-            unit: 'hour',
-            unitStepSize: 1,
-            displayFormats: {'day': 'MMM DD'}
-          },
-          ticks: {
-                 autoSkip: true
-             },
-        }]
+					xAxes: [{
+		        type: 'time',
+		        distribution: 'linear',
+		        time: {
+	          unit: 'day',
+	          unitStepSize: 4,
+	          displayFormats: {'day': 	'MMM D'}
+	          },
+		        ticks: {
+		        	autoSkip: true
+						},
+						bounds: 'ticks'
+       		}],
+
+					yAxes:[{
+						stacked: true,
+						ticks: {
+							min: 0,
+							beginAtZero: true
+
+						},
+
+						scaleLabel: {
+							display: true,
+							labelString: 'value'
+						},
+						stepSize: 0.001
+					}]
       },
+
+				pan: {
+						enabled: true,
+						mode: 'xy',
+						speed: 10,
+						threshold: 10
+					},
+
+				zoom: {
+						enabled: true,
+						//drag: true,
+						mode: 'xy',
+						limits: {
+							max: 10,
+							min: 0.5
+						}
+					},
+
+
+				/*plugins: {
+					filler: {
+						propagate: true
+					}
+
+				},*/
+
         title: {
           display: true,
           text: 'Attribute Data'
@@ -300,7 +335,7 @@
 
 
  <body>		
-		    
+
     <!-- Header -->
 
     <header id="header">
@@ -346,6 +381,7 @@
 
     </nav>
 
+
   
     <div class="container">
       <div class="row">
@@ -389,11 +425,11 @@
                               <input type="button" id="submit" onclick="getData()" value="Refresh" class="btn btn-primary"/><br><br>
 							  
                             </form>
+							
 						
 							
             </div>
 			<div class="card-body ">
-              <h3 class="card-header text-white bg-info mb-3"><a href="index.php">Main page</a></h3>
              </div>
           </div>
 
@@ -411,6 +447,8 @@
           <div class="card">
             <div class="card-body">
               <h3 class="card-header text-white bg-info mb-3">Sensor Atributes Graph</h3>
+							<button onclick="resetZoom()">Reset Zoom</button>
+							<button id="drag-switch" onclick="toggleDragMode()">Disable drag mode</button>
               <canvas id="chartid" width="400" height="300"></canvas>
             </div>
           </div>
@@ -422,8 +460,6 @@
 
 </div>
 
-
-		
 		<script src="assets/js/browser.min.js"></script>
 		
 		<script src="assets/js/breakpoints.min.js"></script>
@@ -431,7 +467,6 @@
 		<script src="assets/js/util.js"></script>
 		
 		<script src="assets/js/main.js"></script>
-
   </body>
 
 </html>
