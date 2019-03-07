@@ -1,6 +1,6 @@
 <?php
 
-      if ($dbcpolluscope = pg_Connect("host=localhost port=5432 dbname=polluscope user=vgbaguid password=123456789 "))
+      if ($dbcpolluscope = pg_Connect("host=localhost port=5432 dbname=polluscope user=postgres password=12345678 "))
         {
                 if(isset($_GET['DateStart'])and isset($_GET['DateEnd']) )
                 {
