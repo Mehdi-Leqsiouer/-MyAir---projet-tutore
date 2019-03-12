@@ -183,7 +183,13 @@
 												Start Date:<input type="datetime-local"  name='start' value=<?php echo $start ?> ><br>
 												End Date:<br><input type="datetime-local" name='end' value=<?php echo $end ?>  ><br>
 												
-												Sensors Box:<select name='sensorBox'  style="width:107%"> 
+												Sensors Box:<select required name='sensorBox'  style="width:107%"> 
+													<?php while($row=pg_fetch_array($queryId)) { ?>
+														<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
+													<?php } ?>
+												</select>											
+												<?php $queryId = pg_exec($dbcpolluscope, "SELECT id,name FROM unified_node ");?>
+												<select id = "sensorBox2" name='sensorBox2'  style="width:107%;"> 
 													<?php while($row=pg_fetch_array($queryId)) { ?>
 														<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
 													<?php } ?>
@@ -196,14 +202,14 @@
 													<option value="no2"  > no2</option>
 													<option value="bc"  > bc</option>
 												</select> 
-												<br>
+												
 												Plot Color:<select name='plotColor' class=button5 style="width:107%" > 
 													<option value="red" > Red</option>
 													<option value="green" > Green</option>
 													<option value="blue" > Blue</option>
 													<option value="black" > Black</option>
 												</select> 
-												<br>
+												
 													Plot Type:
 													<select name='plotType' class=button5 style="width:107%">
 														<option value="point" > Point </option>
@@ -211,14 +217,25 @@
 														<option value="courbe" > Courbe </option>
 														<option value="moyenne" > Moyenne en courbe</option>
 													</select>
-												<br>
+												
 												
 												<input type='submit' value='submit' >
+												<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+												
+												<script>
+												$(document).ready (function() {
+													$("#button").click(function(){
+														$("#sensorBox2").show();
+													});
+												});
+												</script>-->
 												
 											</form>
 											<a href="MyData.csv" ><button>Download CSV</button></a>											
 											<a href="map.png" download='map.png'><button>Download Map</button></a>
-											<a href="plot.png" download='plot.png'><button>Download Plot</button></a>
+											<a href="plot.png" download='plot.png'><button>Download Plot1</button></a>											
+											<a href="plot.png" download='plot2.png'><button>Download Plot2</button></a>
+											
 										</div>
 										
 									</section>
@@ -237,16 +254,21 @@
 													$e=explode('T',$_POST['end']);													
 													$end=$e[0]." ".$e[1];
 													$sensorBox=$_POST['sensorBox'];
+													if (isset($_POST['sensorBox2'])) {
+														$sensorBox2=$_POST['sensorBox2'];
+													}
+													else 
+														$sensorBox2 = "NULL";
 													$sensorType=$_POST['sensorType'];
 													$color = $_POST['plotColor'];
 													$type = $_POST['plotType'];
-													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color." ".$type;
+													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2;
 
 													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
 													
 													$var=rand();
 													exec("R CMD BATCH polluscope.R ".$number ); 
-													echo "<img src='map.png?$var' width=500px height=350px >";
+													echo "<img src='map.png?$var' width=500px height=350px >";									
 												
 												?>
 												<br>
@@ -256,7 +278,9 @@
 											
 											<div class=content >
 											    <header>
-												<?php echo "<img src='plot.png?$var' width=500 height=350px > "; }
+												<?php echo "<img src='plot.png?$var' width=500 height=350px > ";
+												$var=rand();
+												echo "<img src='plot2.png?$var' width=500 height=350px > ";												}
 												
 												else{
 													
@@ -504,7 +528,7 @@
 					<script src="assets/js/main.js"></script>
 					
 					
-					
+				
 				</body>
 				
 			</html>
