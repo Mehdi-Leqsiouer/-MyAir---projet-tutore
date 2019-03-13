@@ -22,13 +22,19 @@ sensor_box2<-args[9]
 #typePlot<-"point"
 #sensor_type<-"pm1.0"
 #colorPlot<-"red"
-#.libPaths('C:/Users/florian.marques/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
+.libPaths('C:/Users/florian.marques/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
 require('ggplot2')
 require('ggmap')
 
 con=dbConnect(PostgreSQL(),
               user="postgres",dbname="polluscope",password="12345678")
+sqlStatement2 <-paste0("select name FROM unified_node where id='",sensor_box,"'"  )
+out2 = dbGetQuery(con,sqlStatement2)
+if (sensor_box2 != "NULL") {
+sqlStatement3 <-paste0("select name FROM unified_node where id='",sensor_box2,"'"  )
+out3 = dbGetQuery(con,sqlStatement3)
+}
 
 sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
 out=dbGetQuery(con, sqlStatement)
@@ -89,7 +95,7 @@ moyenne={
 }
 )
 
-p + geom_point(color=colorPlot)+ labs(x = "timestamp ", y=sensor_type ,title = "AirParif")
+p + geom_point(color=colorPlot)+ labs(x = "timestamp ", y=sensor_type ,title = out2$name)
 dev.off()
 
 if (sensor_box2 != "NULL") {
@@ -149,7 +155,7 @@ if (sensor_box2 != "NULL") {
            print('default')
          }
   )
-  p + geom_point(color=colorPlot)+ labs(x = "timestamp ", y=sensor_type ,title = "AirParif")
+  p + geom_point(color=colorPlot)+ labs(x = "timestamp ", y=sensor_type ,title = out3$name)
 }
 
 dev.off()

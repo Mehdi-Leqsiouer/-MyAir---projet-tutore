@@ -268,7 +268,9 @@
 													
 													$var=rand();
 													exec("R CMD BATCH polluscope.R ".$number ); 
-													echo "<img src='map.png?$var' width=500px height=350px >";									
+													echo "<img src='map.png?$var' width=500px height=350px >";	
+													echo "<img src='plot.png?$var' width=500 height=350px > "	;	
+													echo "<img src='plot2.png?$var' width=500 height=350px > ";												
 												
 												?>
 												<br>
@@ -278,9 +280,9 @@
 											
 											<div class=content >
 											    <header>
-												<?php echo "<img src='plot.png?$var' width=500 height=350px > ";
+												<?php ;
 												$var=rand();
-												echo "<img src='plot2.png?$var' width=500 height=350px > ";												}
+												}
 												
 												else{
 													
