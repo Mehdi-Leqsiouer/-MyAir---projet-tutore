@@ -277,6 +277,43 @@
 								
 								</header>
 								
+								<header align=left>
+								
+								<input type=\"checkbox\" name=\"id\" checked>
+								<label for=\"id\">id</label>
+								<input type=\"checkbox\" name=\"timestamp\" checked>
+								<label for=\"timestamp\">timestamp</label>
+								<input type=\"checkbox\" name=\"node_id\" checked>
+								<label for=\"node_id\">node_id</label>
+								<input type=\"checkbox\" name=\"node_name\" checked>
+								<label for=\"node_name\">node_name</label>
+								<input type=\"checkbox\" name=\"gps_lat\" checked>
+								<label for=\"gps_lat\">gps_lat</label>
+								<input type=\"checkbox\" name=\"gps_lng\" checked>
+								<label for=\"gps_lng\">gps_lng</label>
+								<input type=\"checkbox\" name=\"gps_alt\" checked>
+								<label for=\"gps_alt\">gps_alt</label>
+								<input type=\"checkbox\" name=\"temperature\" checked>
+								<label for=\"temperature\">temperature</label>
+								<input type=\"checkbox\" name=\"humidity\" checked>
+								<label for=\"humidity\">humidity</label>
+								<input type=\"checkbox\" name=\"pressure\" checked>
+								<label for=\"pressure\">pressure</label>
+								<input type=\"checkbox\" name=\"pm2_5\" checked>
+								<label for=\"pm2_5\">pm2.5</label>
+								<input type=\"checkbox\" name=\"pm10\" checked>
+								<label for=\"pm10\">pm10</label>
+								<input type=\"checkbox\" name=\"pm1_0\" checked>
+								<label for=\"pm1_0\">pm1.0</label>
+								<input type=\"checkbox\" name=\"formaldehyde\" checked>
+								<label for=\"formaldehyde\">formaldehyde</label>
+								<input type=\"checkbox\" name=\"no2\" checked>
+								<label for=\"no2\">no2</label>
+								<input type=\"checkbox\" name=\"bc\" checked>
+								<label for=\"bc\">bc</label>
+								
+								</header>
+								
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
@@ -672,6 +709,43 @@
 								<strong><font color=#e60000>Pressure</strong> <br>
 								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
 								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
+								
+								</header>
+								
+								<header align=left>
+								
+								<input type=\"checkbox\" name=\"id\" checked>
+								<label for=\"id\">id</label>
+								<input type=\"checkbox\" name=\"timestamp\" checked>
+								<label for=\"timestamp\">timestamp</label>
+								<input type=\"checkbox\" name=\"node_id\" checked>
+								<label for=\"node_id\">node_id</label>
+								<input type=\"checkbox\" name=\"node_name\" checked>
+								<label for=\"node_name\">node_name</label>
+								<input type=\"checkbox\" name=\"gps_lat\" checked>
+								<label for=\"gps_lat\">gps_lat</label>
+								<input type=\"checkbox\" name=\"gps_lng\" checked>
+								<label for=\"gps_lng\">gps_lng</label>
+								<input type=\"checkbox\" name=\"gps_alt\" checked>
+								<label for=\"gps_alt\">gps_alt</label>
+								<input type=\"checkbox\" name=\"temperature\" checked>
+								<label for=\"temperature\">temperature</label>
+								<input type=\"checkbox\" name=\"humidity\" checked>
+								<label for=\"humidity\">humidity</label>
+								<input type=\"checkbox\" name=\"pressure\" checked>
+								<label for=\"pressure\">pressure</label>
+								<input type=\"checkbox\" name=\"pm2_5\" checked>
+								<label for=\"pm2_5\">pm2.5</label>
+								<input type=\"checkbox\" name=\"pm10\" checked>
+								<label for=\"pm10\">pm10</label>
+								<input type=\"checkbox\" name=\"pm1_0\" checked>
+								<label for=\"pm1_0\">pm1.0</label>
+								<input type=\"checkbox\" name=\"formaldehyde\" checked>
+								<label for=\"formaldehyde\">formaldehyde</label>
+								<input type=\"checkbox\" name=\"no2\" checked>
+								<label for=\"no2\">no2</label>
+								<input type=\"checkbox\" name=\"bc\" checked>
+								<label for=\"bc\">bc</label>
 								
 								</header>
 								
