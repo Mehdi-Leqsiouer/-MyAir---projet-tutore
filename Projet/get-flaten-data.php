@@ -185,35 +185,43 @@
 								if(isset($_POST['minTemp']))
 									$minTemp=$_POST['minTemp'];
 								else
-								//$minTemp=pg_exec($dbcpolluscope,"select min(temperature) from flaten_all_data");
-								$minTemp=0;
+									//$minTemp=pg_exec($dbcpolluscope,"select min(temperature) from flaten_all_data");
+									$minTemp=0;
 								if(isset($_POST['maxTemp']))
 									$maxTemp=$_POST['maxTemp'];
 								else
-								//$maxTemp=pg_exec($dbcpolluscope,"select max(temperature) from flaten_all_data");
-								$maxTemp=10000;
+									//$maxTemp=pg_exec($dbcpolluscope,"select max(temperature) from flaten_all_data");
+									$maxTemp=10000;
 								
 								if(isset($_POST['minHum']))
 									$minHum=$_POST['minHum'];
 								else
-								//$minHum=pg_exec($dbcpolluscope,"select min(humidity) from flaten_all_data");
-								$minHum=0;
+									//$minHum=pg_exec($dbcpolluscope,"select min(humidity) from flaten_all_data");
+									$minHum=0;
 								if(isset($_POST['maxHum']))
 									$maxHum=$_POST['maxHum'];
 								else
-								//$maxHum=pg_exec($dbcpolluscope,"select max(humidity) from flaten_all_data");
-								$maxHum=10000;
+									//$maxHum=pg_exec($dbcpolluscope,"select max(humidity) from flaten_all_data");
+									$maxHum=10000;
 								
 								if(isset($_POST['minPress']))
 									$minPress=$_POST['minPress'];
 								else
-								//$minPress=pg_exec($dbcpolluscope,"select min(pressure) from flaten_all_data");
-								$minPress=0;
+									//$minPress=pg_exec($dbcpolluscope,"select min(pressure) from flaten_all_data");
+									$minPress=0;
 								if(isset($_POST['maxPress']))
 									$maxPress=$_POST['maxPress'];
 								else
-								//$maxPress=pg_exec($dbcpolluscope,"select max(pressure) from flaten_all_data");
-								$maxPress=10000;
+									//$maxPress=pg_exec($dbcpolluscope,"select max(pressure) from flaten_all_data");
+									$maxPress=10000;
+								
+								if(isset($_POST['columns'])) {
+									$columns = $_POST['columns'];
+									$colToString = "";
+									foreach($columns as $col)
+										$colToString .= $col.",";
+								}
+								echo $colToString; // et en gros j'aimerais mettre cette variable dans le select de la requete BD
 								
 								pg_exec($dbcpolluscope, "CREATE TABLE if not exists \"Tabletemporary\"
 										(
@@ -279,45 +287,33 @@
 								
 								<header align=left>
 								
-								<input type=\"checkbox\" name=\"id\" checked>
-								<label for=\"id\">id</label>
-								<input type=\"checkbox\" name=\"timestamp\" checked>
-								<label for=\"timestamp\">timestamp</label>
-								<input type=\"checkbox\" name=\"node_id\" checked>
-								<label for=\"node_id\">node_id</label>
-								<input type=\"checkbox\" name=\"node_name\" checked>
-								<label for=\"node_name\">node_name</label>
-								<input type=\"checkbox\" name=\"gps_lat\" checked>
-								<label for=\"gps_lat\">gps_lat</label>
-								<input type=\"checkbox\" name=\"gps_lng\" checked>
-								<label for=\"gps_lng\">gps_lng</label>
-								<input type=\"checkbox\" name=\"gps_alt\" checked>
-								<label for=\"gps_alt\">gps_alt</label>
-								<input type=\"checkbox\" name=\"temperature\" checked>
-								<label for=\"temperature\">temperature</label>
-								<input type=\"checkbox\" name=\"humidity\" checked>
-								<label for=\"humidity\">humidity</label>
-								<input type=\"checkbox\" name=\"pressure\" checked>
-								<label for=\"pressure\">pressure</label>
-								<input type=\"checkbox\" name=\"pm2_5\" checked>
-								<label for=\"pm2_5\">pm2.5</label>
-								<input type=\"checkbox\" name=\"pm10\" checked>
-								<label for=\"pm10\">pm10</label>
-								<input type=\"checkbox\" name=\"pm1_0\" checked>
-								<label for=\"pm1_0\">pm1.0</label>
-								<input type=\"checkbox\" name=\"formaldehyde\" checked>
-								<label for=\"formaldehyde\">formaldehyde</label>
-								<input type=\"checkbox\" name=\"no2\" checked>
-								<label for=\"no2\">no2</label>
-								<input type=\"checkbox\" name=\"bc\" checked>
-								<label for=\"bc\">bc</label>
+								<select name='columns' multiple>
+									<option>id</option>
+									<option>timestamp</option>
+									<option>node_id</option>
+									<option>node_name</option>
+									<option>gps_lat</option>
+									<option>gps_lng</option>
+									<option>gps_alt</option>
+									<option>temperature</option>
+									<option>humidity</option>
+									<option>pressure</option>
+									<option>pm2.5</option>
+									<option>pm10</option>
+									<option>pm1.0</option>
+									<option>formaldehyde</option>
+									<option>no2</option>
+									<option>bc</option>
+								</select>
 								
 								</header>
+								
+								<br><br>
 								
 								<header align=left >
 								
 								<input alt='Search Button' src='images/submit.png' type='image' width=120 height=45 />
-														
+								
 								
 								</header>
 								
@@ -714,40 +710,28 @@
 								
 								<header align=left>
 								
-								<input type=\"checkbox\" name=\"id\" checked>
-								<label for=\"id\">id</label>
-								<input type=\"checkbox\" name=\"timestamp\" checked>
-								<label for=\"timestamp\">timestamp</label>
-								<input type=\"checkbox\" name=\"node_id\" checked>
-								<label for=\"node_id\">node_id</label>
-								<input type=\"checkbox\" name=\"node_name\" checked>
-								<label for=\"node_name\">node_name</label>
-								<input type=\"checkbox\" name=\"gps_lat\" checked>
-								<label for=\"gps_lat\">gps_lat</label>
-								<input type=\"checkbox\" name=\"gps_lng\" checked>
-								<label for=\"gps_lng\">gps_lng</label>
-								<input type=\"checkbox\" name=\"gps_alt\" checked>
-								<label for=\"gps_alt\">gps_alt</label>
-								<input type=\"checkbox\" name=\"temperature\" checked>
-								<label for=\"temperature\">temperature</label>
-								<input type=\"checkbox\" name=\"humidity\" checked>
-								<label for=\"humidity\">humidity</label>
-								<input type=\"checkbox\" name=\"pressure\" checked>
-								<label for=\"pressure\">pressure</label>
-								<input type=\"checkbox\" name=\"pm2_5\" checked>
-								<label for=\"pm2_5\">pm2.5</label>
-								<input type=\"checkbox\" name=\"pm10\" checked>
-								<label for=\"pm10\">pm10</label>
-								<input type=\"checkbox\" name=\"pm1_0\" checked>
-								<label for=\"pm1_0\">pm1.0</label>
-								<input type=\"checkbox\" name=\"formaldehyde\" checked>
-								<label for=\"formaldehyde\">formaldehyde</label>
-								<input type=\"checkbox\" name=\"no2\" checked>
-								<label for=\"no2\">no2</label>
-								<input type=\"checkbox\" name=\"bc\" checked>
-								<label for=\"bc\">bc</label>
+								<select multiple>
+									<option>id</option>
+									<option>timestamp</option>
+									<option>node_id</option>
+									<option>node_name</option>
+									<option>gps_lat</option>
+									<option>gps_lng</option>
+									<option>gps_alt</option>
+									<option>temperature</option>
+									<option>humidity</option>
+									<option>pressure</option>
+									<option>pm2.5</option>
+									<option>pm10</option>
+									<option>pm1.0</option>
+									<option>formaldehyde</option>
+									<option>no2</option>
+									<option>bc</option>
+								</select>
 								
 								</header>
+								
+								<br><br>
 								
 								<header align=left >
 								
