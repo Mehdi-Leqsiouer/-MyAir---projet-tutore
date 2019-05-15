@@ -218,10 +218,12 @@
 								if(isset($_POST['columns'])) {
 									$columns = $_POST['columns'];
 									$colToString = "";
-									foreach($columns as $col)
+									foreach((array)$columns as $col) {
 										$colToString .= $col.",";
+									}
+									echo $colToString; // et en gros j'aimerais mettre cette variable dans le select de la requete BD
 								}
-								echo $colToString; // et en gros j'aimerais mettre cette variable dans le select de la requete BD
+								
 								
 								pg_exec($dbcpolluscope, "CREATE TABLE if not exists \"Tabletemporary\"
 										(
@@ -266,28 +268,7 @@
 								
 								echo "</select>
 								
-								</header>
-								
-								<header id=\"filtres\" align=left>
-								
-								
-								<strong><font color=#e60000>Temperature</strong> <br>
-								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
-								Max : <input type=number step = '0.1' name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
-								
-								<strong><font color=#e60000>Humidity</strong> <br>
-								Min : <input type=number step = '0.1' name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
-								Max : <input type=number step = '0.1' name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
-								
-								<strong><font color=#e60000>Pressure</strong> <br>
-								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
-								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
-								
-								</header>
-								
-								<header align=left>
-								
-								<select name='columns' multiple>
+								<select style=\"width:200px;\" multiple>
 									<option>id</option>
 									<option>timestamp</option>
 									<option>node_id</option>
@@ -307,6 +288,24 @@
 								</select>
 								
 								</header>
+								
+								<header id=\"filtres\" align=left>
+								
+								
+								<strong><font color=#e60000>Temperature</strong> <br>
+								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+								Max : <input type=number step = '0.1' name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+								
+								<strong><font color=#e60000>Humidity</strong> <br>
+								Min : <input type=number step = '0.1' name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+								Max : <input type=number step = '0.1' name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+								
+								<strong><font color=#e60000>Pressure</strong> <br>
+								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
+								
+								</header>
+								
 								
 								<br><br>
 								
@@ -688,29 +687,9 @@
 										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
 									<?php }								
 								echo "</select>
-								
-								</header>
-								
-								<header id=\"filtres\" align=left>
-								
-								
-								<strong><font color=#e60000>Temperature</strong> <br>
-								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
-								Max : <input type=number step = '0.1' name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
-								
-								<strong><font color=#e60000>Humidity</strong> <br>
-								Min : <input type=number step = '0.1' name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
-								Max : <input type=number step = '0.1' name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
-								
-								<strong><font color=#e60000>Pressure</strong> <br>
-								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
-								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
-								
-								</header>
-								
-								<header align=left>
-								
-								<select multiple>
+								<br>
+								<font color=#e60000>Data:</font>
+								<select style=\"width:200px;\" multiple>
 									<option>id</option>
 									<option>timestamp</option>
 									<option>node_id</option>
@@ -728,6 +707,23 @@
 									<option>no2</option>
 									<option>bc</option>
 								</select>
+								
+								</header>
+								
+								<header id=\"filtres\" align=left>
+								
+								
+								<strong><font color=#e60000>Temperature</strong> <br>
+								Min : <input type=number step = '0.1' name='minTemp' value=$minTemp  min=$minTemp max=$maxTemp > <br>
+								Max : <input type=number step = '0.1' name='maxTemp' value=$maxTemp  min=$minTemp max=$maxTemp > <br><br></font>
+								
+								<strong><font color=#e60000>Humidity</strong> <br>
+								Min : <input type=number step = '0.1' name='minHum' value=$minHum  min=$minHum max=$maxHum > <br>
+								Max : <input type=number step = '0.1' name='maxHum' value=$maxHum  min=$minHum max=$maxHum > <br><br></font>
+								
+								<strong><font color=#e60000>Pressure</strong> <br>
+								Min : <input type=number step = '0.1' name='minPress' value=$minPress  min=$minPress max=$maxPress > <br>
+								Max : <input type=number step = '0.1' name='maxPress' value=$maxPress  min=$minPress max=$maxPress > <br><br></font>
 								
 								</header>
 								
