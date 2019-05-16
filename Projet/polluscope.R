@@ -98,7 +98,7 @@ switch(typePlot,
 p
 dev.off()
 
-if ( !is.null(sensor_box2)) {
+if ( sensor_box2 != "NULL") {
   sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box2 ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
   out2=dbGetQuery(con, sqlStatement)
   switch(typePlot,
