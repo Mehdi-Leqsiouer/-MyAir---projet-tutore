@@ -23,7 +23,7 @@ colorPlot2<-args[10]
 # colorPlot<-"red"
 # colorPlot2<-"blue"
 
-.libPaths('C:/Users/USer/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
+.libPaths('C:/Users/user/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
 require('ggplot2')
 require('ggmap')
@@ -242,5 +242,26 @@ if (sensor_box2 == "NULL") {
   ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color=colorPlot)
 }
 dev.off()
+
+library(leaflet)
+
+
+
+villes <- data.frame(time = out$timestamp,
+                     Latitude = out$gps_lat,
+                     Longitude = out$gps_lng,
+                     id_capteur = out$node_id)
+
+m <- leaflet(villes) %>% addTiles() %>%
+  addCircles(lng = ~Longitude, lat = ~Latitude, weight = 1,
+             radius = 50, popup = ~paste(time, ":", id_capteur),
+             color = "#a500a5", fillOpacity = 0.5)
+
+m <- addPolylines(m, data = villes,lat = ~out$gps_lat, lng = ~out$gps_lng)
+
+library(htmlwidgets)
+saveWidget(m, 'map.html', selfcontained = TRUE)
+
+m
 
 dbDisconnect(con)

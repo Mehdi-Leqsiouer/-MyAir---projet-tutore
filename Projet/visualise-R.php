@@ -253,6 +253,7 @@
 											
 												<a href="MyData.csv" ><button >Download CSV</button></a><br><br>									
 												<a href="map.png" download='map.png' ><button background-color = 'gainsboro'>Download Map</button></a><br><br>
+												<a href="map.html" ><button background-color = 'gainsboro'>Ouvrir Map</button></a><br><br>
 												<a href="plot.png" download='plot.png'><button>Download Plot1</button></a><br><br>											
 												<a href="plot.png" download='plot2.png'><button>Download Plot2</button></a>
 											
@@ -291,17 +292,20 @@
 														if (!is_null($sensorBox2)){
 															$var=rand();
 															exec("R CMD BATCH polluscope.R ".$number );
-															echo "<img src='map.png?$var' width=500px height=350px >";	
-															echo "<img src='plot.png?$var' width=500 height=350px > ";
+															echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";
+															#echo "<img src='map.png?$var' width=500px height=350px >";	
+															echo "<img src='plot.png?$var' width=500px height=350px > ";
+															
 														}
 														
 														else{
 															$var=rand();	
 															exec("R CMD BATCH polluscope.R ".$number );
-															echo "<img src='map.png?$var' width=500px height=350px >";	
-															echo "<img src='plot.png?$var' width=500 height=350px > ";	
-															echo "<img src='plot2.png?$var' width=500 height=350px > ";
-															echo "<img src='plot3.png?$var' width=500 height=350px > ";
+															#echo "<img src='map.png?$var' width=500px height=350px >";	
+															echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";
+															echo "<img src='plot.png?$var' width=500px height=350px > ";	
+															echo "<img src='plot2.png?$var' width=500px height=350px > ";
+															echo "<img src='plot3.png?$var' width=500px height=350px > ";
 														}
 												?>
 												
