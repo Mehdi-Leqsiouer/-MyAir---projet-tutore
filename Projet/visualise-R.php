@@ -318,7 +318,6 @@
 													
 													else{
 														$var=rand();
-														echo 'bonjour';
 														echo"<img src='images/mapEmpty.png?$var' width=500px height=350px >";
 														
 													}
