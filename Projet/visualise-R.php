@@ -171,11 +171,11 @@
 								{
 									$queryId = pg_exec($dbcpolluscope, "SELECT id,name FROM unified_node ");
 									
-								?>
+									?>
 								
 									<div class="highlights">
 										<section>
-											<div  class="content2">
+											<div  class="content">
 												
 												<form method='POST' action='' >
 												
@@ -201,7 +201,7 @@
 													
 													<?php $queryId = pg_exec($dbcpolluscope, "SELECT id,name FROM unified_node ");?>
 													<select id = "sensorBox2" name='sensorBox2'  style="width:107%;">
-														<option value=NULL >  </option>
+														<option value="NULL" >  </option>
 														<?php while($row=pg_fetch_array($queryId)) { ?>
 															<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
 														<?php } ?>
@@ -263,88 +263,80 @@
 											
 										</section>
 										
-										<section>
+									
+										<?php 
 											
-											<div class=content>
-											
-											
-												<?php 
-													
-													if(isset($_POST['start']) and isset($_POST['end']))
-													{  
-														$start=$_POST['start'];//result of formt yyyy-mm-ddThh:ii:ss								
-														$end=$_POST['end'];														
-														$hourStart=$_POST['hourStart'];														
-														$hourEnd=$_POST['hourEnd'];														
-														$start1=$start." ".$hourStart;
-														$end1=$end." ".$hourEnd;
+											if(isset($_POST['start']) and isset($_POST['end']))
+											{  
+													$start=$_POST['start'];//result of formt yyyy-mm-ddThh:ii:ss								
+													$end=$_POST['end'];														
+													$hourStart=$_POST['hourStart'];														
+													$hourEnd=$_POST['hourEnd'];														
+													$start1=$start." ".$hourStart;
+													$end1=$end." ".$hourEnd;
 														
-														$sensorBox=$_POST['sensorBox'];
-														$sensorBox2=$_POST['sensorBox2'];
-														$sensorType=$_POST['sensorType'];
-														$color = $_POST['plotColor1'];
-														$color2 = $_POST['plotColor2'];
-														$type = $_POST['plotType'];
-														$number=$start1." ".$end1." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2." ".$color2;
+													$sensorBox=$_POST['sensorBox'];
+													$sensorBox2=$_POST['sensorBox2'];
+													$sensorType=$_POST['sensorType'];
+													$color = $_POST['plotColor1'];
+													$color2 = $_POST['plotColor2'];
+													$type = $_POST['plotType'];
+													$number=$start1." ".$end1." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2." ".$color2;
 
-														exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
+													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
+													
+													if ($sensorBox2=="NULL"){
+														?>
 														
-														if (!is_null($sensorBox2)){
-															$var=rand();
-															exec("R CMD BATCH polluscope.R ".$number );
-															echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";
-															#echo "<img src='map.png?$var' width=500px height=350px >";	
-															echo "<img src='plot.png?$var' width=500px height=350px > ";
-															
-														}
-														
-														else{
-															$var=rand();	
-															exec("R CMD BATCH polluscope.R ".$number );
-															#echo "<img src='map.png?$var' width=500px height=350px >";	
-															echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";
-															echo "<img src='plot.png?$var' width=500px height=350px > ";	
-															echo "<img src='plot2.png?$var' width=500px height=350px > ";
-															echo "<img src='plot3.png?$var' width=500px height=350px > ";
-														}
-												?>
-												
-												<br>
-												<br>
-												<br>
-												
-											</div>
-										
-											<div class=content >
-												<header>
-													<?php 
+														<section>
+															<div class=content>
+																<?php
+																	$var=rand();
+																	exec("R CMD BATCH polluscope.R ".$number );
+																	echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";	
+																	echo "<img src='plot.png?$var' width=500 height=350px > ";
+																?>
+															</div>
+														</section>
+														<?php
 													}
 													
 													else{
-														$var=rand();
-														echo"<img src='images/mapEmpty.png?$var' width=500px height=350px >";
-														
+														?>
+															<section>
+																<div class=content>
+																	<?php
+																		$var=rand();	
+																		exec("R CMD BATCH polluscope.R ".$number );
+																		echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";	
+																		echo "<img src='plot.png?$var' width=500 height=350px > ";	
+																		echo "<img src='plot2.png?$var' width=500 height=350px > ";
+																		echo "<img src='plot3.png?$var' width=500 height=350px > ";
+																	?>
+																</div>
+															</section>
+														<?php
 													}
-													
-													
-													?>
-												</header>
-											</div>
-										
-										</section>			
-									
-									</div>
-								
-									<?php
+											}
+											
+											else{
+												?>
+													<section>
+														<div class=content >
+															<?php
+																$var=rand();
+																echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";
+															?>
+														</div>
+													</section>
+												<?php
+											}
 								}
-								?>
+										?>
+									</div>
 							
-								<?php
-							} // end of: "if ($dbcpolluscope..."
-							
-							
-							
-							
+						<?php
+							}// end of: "if ($dbcpolluscope..."
 							
 							else { // if the connexion to polluscope (postgres) doesn't work... 
 								
@@ -353,15 +345,9 @@
 								mysqli_close($dbccanarin);
 								
 							}
-							
-							
-							
-							
-							
+						
 						?>
-						
-						
-						
+							
 					</div>
 					
 				</section> 
