@@ -1,0 +1,99 @@
+
+.button {
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+}
+.button1 {
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.16, rgb(207, 207, 207)), color-stop(0.79, rgb(252, 252, 252)));
+	background-image: -moz-linear-gradient(center bottom, rgb(207, 207, 207) 16%, rgb(252, 252, 252) 79%);
+	background-image: linear-gradient(to top, rgb(207, 207, 207) 16%, rgb(252, 252, 252) 79%); 
+	padding: 3px;
+	border: 1px solid #000;
+	color: black;
+	
+	text-decoration: none;
+	
+}	
+
+
+.button2 {   margin-left:470px; width: 130px; } 
+
+.button3 {   margin-left:0px; width: 190px;margin-top=-500px; } 
+
+input[type="submit"] {border-radius: 12px; margin-left:0px; } /* Red */ 
+.button4 {background-image: 	url(signup.png);
+	background-repeat:	no-repeat;
+	background-color:	transparent;
+	height:			66px;
+	width:			182px;
+	border:			none;
+text-indent:		-999em;} /* Gray */ 
+.button5 {margin-left: 0px;}
+.button6 {   margin-left:40px; width: 100px;margin-top=-500px; } 
+.button7 {
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.16, rgb(207, 207, 207)), color-stop(0.79, rgb(252, 252, 252)));
+	background-image: -moz-linear-gradient(center bottom, rgb(207, 207, 207) 16%, rgb(252, 252, 252) 79%);
+	background-image: linear-gradient(to top, rgb(207, 207, 207) 16%, rgb(252, 252, 252) 79%); 
+	padding: 3px;
+	border: 1px solid #000;
+	color: black;	
+	text-decoration: none;
+	margin-left:80px;
+}
+
+input[type="submit"] {background-color: #f44336 !important;border-radius: 12px;} /* Red */ 
+
+.bouton_submit{
+	background-image:url(img_1.png);
+}
+
+.bouton_submit:hover{
+	background-image:url(img_2.png);
+}
+
+.bouton_submit:active{
+	background-image:url(img_3.png);
+
+}
+#div2
+{
+height:400px;
+width=200px;
+overflow:auto;
+overflow-x:auto;
+}
+#table2
+{
+column-width: 300px;
+text-align:center;
+font-family:Arail;
+font-size:10pt;
+width:initial;
+color:black;
+cellspacing:200px;
+cellpadding:200px;
+height:10%;
+
+
+}
+
+#table2 th,
+#table2 td{
+	/*padding: 0 20px 8px;*/
+	column-width:60px;
+	
+}
