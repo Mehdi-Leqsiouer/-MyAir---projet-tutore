@@ -173,138 +173,170 @@
 									
 								?>
 								
-								<div class="highlights">
-									<section>
-										<div  class="content">
-											
-											<form method='POST' action='' >
+									<div class="highlights">
+										<section>
+											<div  class="content2">
 												
+												<form method='POST' action='' >
 												
-												Start Date:<input type="datetime-local"  name='start' value=<?php echo $start ?> ><br>
-												End Date:<br><input type="datetime-local" name='end' value=<?php echo $end ?>  ><br>
-												
-												Sensors Box:<select required name='sensorBox'  style="width:107%"> 
-													<?php while($row=pg_fetch_array($queryId)) { ?>
-														<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
-													<?php } ?>
-												</select>											
-												<?php $queryId = pg_exec($dbcpolluscope, "SELECT id,name FROM unified_node ");?>
-												<select id = "sensorBox2" name='sensorBox2'  style="width:107%;"> 
-													<?php while($row=pg_fetch_array($queryId)) { ?>
-														<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
-													<?php } ?>
-												</select>
-												
-												Sensors Type:<select name='sensorType' class=button5 style="width:107%" > 
-													<option value="pm1.0" > pm1.0</option>
-													<option value="pm10"  > pm10</option>
-													<option value="pm2.5"  > pm2.5</option>
-													<option value="no2"  > no2</option>
-													<option value="bc"  > bc</option>
-												</select> 
-												
-												Plot Color:<select name='plotColor' class=button5 style="width:107%" > 
-													<option value="red" > Red</option>
-													<option value="green" > Green</option>
-													<option value="blue" > Blue</option>
-													<option value="black" > Black</option>
-												</select> 
-												
-													Plot Type:
-													<select name='plotType' class=button5 style="width:107%">
-														<option value="point" > Point </option>
-														<option value="colonne" > Colonne </option>
-														<option value="courbe" > Courbe </option>
-														<option value="moyenne" > Moyenne en courbe</option>
+													<section  float=right>												
+														
+														<strong><font color=#e60000>Start</strong> <br>
+														Date : <input type=date  name='start' value=$start > <br>
+														Hour : <input type=time name='hourStart' value=$hourStart  min=0 max=23 > <br><br></font>
+														
+														<strong><font color=#e60000>End</strong> <br>
+														Date : <input type=date name='end' value=$end style='margin-left: 5px' > <br> 
+														Hour : <input type=time name='hourEnd' value=$hourEnd min=0 max=23 style='margin-left: 5px' ></font>
+													
+													</section>
+													
+													<br>
+													
+													Sensors Box:<select required id="sensorBox" name='sensorBox'  style="width:107%"> 
+														<?php while($row=pg_fetch_array($queryId)) { ?>
+															<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
+														<?php } ?>								
 													</select>
-												
-												
-												<input type='submit' value='submit' >
-												<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-												
-												<script>
-												$(document).ready (function() {
-													$("#button").click(function(){
-														$("#sensorBox2").show();
+													
+													<?php $queryId = pg_exec($dbcpolluscope, "SELECT id,name FROM unified_node ");?>
+													<select id = "sensorBox2" name='sensorBox2'  style="width:107%;">
+														<option value=NULL >  </option>
+														<?php while($row=pg_fetch_array($queryId)) { ?>
+															<option value=<?php echo $row[0] ?> > <?php echo $row[1] ?>  </option>
+														<?php } ?>
+													</select>
+													
+													Sensors Type:<select name='sensorType' class=button5 style="width:107%" > 
+														<option value="pm1.0" > pm1.0</option>
+														<option value="pm10"  > pm10</option>
+														<option value="pm2.5"  > pm2.5</option>
+														<option value="no2"  > no2</option>
+														<option value="bc"  > bc</option>
+													</select> 
+													
+													Plot Color 1:<select name='plotColor1' class=button5 style="width:107%" > 
+														<option value="red" > Red</option>
+														<option value="green" > Green</option>
+														<option value="blue" > Blue</option>
+														<option value="black" > Black</option>
+													</select>
+													
+													Plot Color 2:<select name='plotColor2' class=button5 style="width:107%" > 
+														<option value="red" > Red</option>
+														<option value="green" > Green</option>
+														<option value="blue" > Blue</option>
+														<option value="black" > Black</option>
+													</select>
+													
+														Plot Type:
+														<select name='plotType' class=button5 style="width:107%">
+															<option value="point" > Point </option>
+															<option value="colonne" > Colonne </option>
+															<option value="courbe" > Courbe </option>
+															<option value="moyenne" > Moyenne en courbe</option>
+														</select><br>
+													
+													
+													<input type='submit' value='submit' >
+													<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+													
+													<script>
+													$(document).ready (function() {
+														$("#button").click(function(){
+															$("#sensorBox2").show();
+														});
 													});
-												});
-												</script>-->
-												
-											</form>
-											<a href="MyData.csv" ><button>Download CSV</button></a>											
-											<a href="map.png" download='map.png'><button>Download Map</button></a>
-											<a href="plot.png" download='plot.png'><button>Download Plot1</button></a>											
-											<a href="plot.png" download='plot2.png'><button>Download Plot2</button></a>
+													</script>-->
+													
+												</form>
 											
-										</div>
+												<a href="MyData.csv" ><button >Download CSV</button></a><br><br>									
+												<a href="map.png" download='map.png' ><button background-color = 'gainsboro'>Download Map</button></a><br><br>
+												<a href="plot.png" download='plot.png'><button>Download Plot1</button></a><br><br>											
+												<a href="plot.png" download='plot2.png'><button>Download Plot2</button></a>
+											
+											
+											</div>	
+											
+											
+										</section>
 										
-									</section>
-									
-									<section>
-										
-										<div class=content>
-										
-										
-											<?php 
-												
-												if(isset($_POST['start']) and isset($_POST['end']))
-												{  
-													$s=explode('T',$_POST['start']);
-													$start=$s[0]." ".$s[1];
-													$e=explode('T',$_POST['end']);													
-													$end=$e[0]." ".$e[1];
-													$sensorBox=$_POST['sensorBox'];
-													if (isset($_POST['sensorBox2'])) {
+										<section>
+											
+											<div class=content>
+											
+											
+												<?php 
+													
+													if(isset($_POST['start']) and isset($_POST['end']))
+													{  
+														$start=$_POST['start'];//result of formt yyyy-mm-ddThh:ii:ss								
+														$end=$_POST['end'];														
+														$hourStart=$_POST['hourStart'];														
+														$hourEnd=$_POST['hourEnd'];														
+														$start1=$start." ".$hourStart;
+														$end1=$end." ".$hourEnd;
+														
+														$sensorBox=$_POST['sensorBox'];
 														$sensorBox2=$_POST['sensorBox2'];
-													}
-													else 
-														$sensorBox2 = "NULL";
-													$sensorType=$_POST['sensorType'];
-													$color = $_POST['plotColor'];
-													$type = $_POST['plotType'];
-													$number=$start." ".$end." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2;
+														$sensorType=$_POST['sensorType'];
+														$color = $_POST['plotColor1'];
+														$color2 = $_POST['plotColor2'];
+														$type = $_POST['plotType'];
+														$number=$start1." ".$end1." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2." ".$color2;
 
-													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
-													
-													$var=rand();
-													exec("R CMD BATCH polluscope.R ".$number ); 
-													echo "<img src='map.png?$var' width=500px height=350px >";	
-													echo "<img src='plot.png?$var' width=500 height=350px > "	;	
-													echo "<img src='plot2.png?$var' width=500 height=350px > ";												
-												
+														exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
+														
+														if (!is_null($sensorBox2)){
+															$var=rand();
+															exec("R CMD BATCH polluscope.R ".$number );
+															echo "<img src='map.png?$var' width=500px height=350px >";	
+															echo "<img src='plot.png?$var' width=500 height=350px > ";
+														}
+														
+														else{
+															$var=rand();	
+															exec("R CMD BATCH polluscope.R ".$number );
+															echo "<img src='map.png?$var' width=500px height=350px >";	
+															echo "<img src='plot.png?$var' width=500 height=350px > ";	
+															echo "<img src='plot2.png?$var' width=500 height=350px > ";
+															echo "<img src='plot3.png?$var' width=500 height=350px > ";
+														}
 												?>
+												
 												<br>
 												<br>
 												<br>
+												
 											</div>
-											
-											<div class=content >
-											    <header>
-												<?php ;
-												$var=rand();
-												}
-												
-												else{
-													
-													echo"<img src='images/mapEmpty.png?$var' width=500px height=350px >";
-													
-													}
-												
-												
-												?>
-											</header>
-										</div>
 										
-									</section>
+											<div class=content >
+												<header>
+													<?php 
+													}
+													
+													else{
+														$var=rand();
+														echo 'bonjour';
+														echo"<img src='images/mapEmpty.png?$var' width=500px height=350px >";
+														
+													}
+													
+													
+													?>
+												</header>
+											</div>
+										
+										</section>			
 									
-									
-									
-								</div>
-								<?php
+									</div>
+								
+									<?php
 								}
-							?>
+								?>
 							
-							<?php
+								<?php
 							} // end of: "if ($dbcpolluscope..."
 							
 							
