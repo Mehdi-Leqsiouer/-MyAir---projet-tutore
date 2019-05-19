@@ -283,7 +283,7 @@
 													$type = $_POST['plotType'];
 													$number=$start1." ".$end1." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2." ".$color2;
 
-													exec('"C:/Program Files/R/R-3.5.2/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
+													exec('"C:/Program Files/R/R-3.6.0/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
 													
 													if ($sensorBox2=="NULL"){
 														?>
@@ -325,7 +325,7 @@
 														<div class=content >
 															<?php
 																$var=rand();
-																echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";
+																echo "<iframe id='map_leaflet' title='Carte leaflet vide' src='map_empty.html' width='570px' height='400px'></iframe>";
 															?>
 														</div>
 													</section>

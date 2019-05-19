@@ -23,7 +23,7 @@ colorPlot2<-args[10]
 # colorPlot<-"red"
 # colorPlot2<-"blue"
 
-.libPaths('C:/Users/user/Documents/R/win-library/3.5')#to indicate the path to the libraries when run the script through php
+.libPaths('C:/Users/flori/OneDrive/Documents/R/win-library/3.6')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
 require('ggplot2')
 require('ggmap')
@@ -265,3 +265,4 @@ saveWidget(m, 'map.html', selfcontained = TRUE)
 m
 
 dbDisconnect(con)
+
