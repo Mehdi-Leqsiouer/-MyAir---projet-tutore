@@ -37,7 +37,7 @@ if (sensor_box2 != "NULL") {
   out3 = dbGetQuery(con,sqlStatement3)
 }
 
-#bon
+
 
 sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
 out=dbGetQuery(con, sqlStatement)
@@ -99,7 +99,7 @@ switch(typePlot,
 )
 p
 dev.off()
-#bon
+
 
 if ( sensor_box2 != "NULL") {
   sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box2 ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
@@ -223,20 +223,20 @@ if ( sensor_box2 != "NULL") {
   
 }
 
-#bon
+
 
 png(filename="plot2.png",width=500,height=500)# open or creat the png file
-#p2
+
 
 dev.off()
 
 
 dev.set(5)
 png(filename="plot3.png",width=500,height=500)# open or creat the png file
-#p3
+
 dev.off()
 
-#bon
+
 
 register_google(key = "AIzaSyBd4BvkehJr6z4Umr9yh83WY4C2FC0XwXk")
 png(filename="map.png",width=500,height=500)# opening or creating the png file
@@ -248,61 +248,98 @@ if (sensor_box2 == "NULL") {
   ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color=colorPlot)
 }
 dev.off()
-#bon
+
 library(leaflet)
-#bon
+
 if (sensor_box2 != "NULL"){
   sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box2 ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
   out2=dbGetQuery(con, sqlStatement)
   
-  if (sensor_type == "pm1.0")
-    pollution = out2$pm1.0
-  if (sensor_type == "pm10")
-    pollution = out2$pm10
-  if (sensor_type == "pm2.5")
-    pollution = out2$pm2.5
-  if (sensor_type == "no2")
-    pollution = out2$no2
-  if (sensor_type == "bc")
-    pollution = out2$bc
+  if (sensor_type == "pm1.0"){
+    pollution2 = out2$pm1.0
+    pollution1 = out$pm1.0
+  }
+    
+  if (sensor_type == "pm10"){
+    pollution2 = out2$pm10
+    pollution1 = out$pm10
+  }
+    
+  if (sensor_type == "pm2.5"){
+    pollution2 = out2$pm2.5
+    pollution1 = out$pm2.5
+  }
+    
+  if (sensor_type == "no2"){
+    pollution2 = out2$no2
+    pollution1 = out$no2
+  }
+   
+  if (sensor_type == "bc"){
+    pollution2 = out2$bc
+    pollution1 = out$bc
+  }
+   
   
   villes <- data.frame(time1 = out2$timestamp,
                        Latitude1 = out2$gps_lat,
                        Longitude1 = out2$gps_lng,
                        id_capteur1 = out2$node_id,
-                       degre1 = pollution)
-  couleurs <- colorNumeric(c("#FCAB8F", "#FAF187", "#FFFFFF"), villes$degre1, n = 3)
+                       degre2 = pollution2)
+  couleurs2 <- colorNumeric(c("#FCAB8F", "#FAF187", "#FFFFFF"), villes$degre2, n = 3)
 
   m <- leaflet(villes) %>% addTiles() %>%
     addCircles(lng = ~Longitude1, lat = ~Latitude1, weight = 1,
-               radius = ~degre1*2, popup = ~paste(time1, ":", id_capteur1),
-               color = ~couleurs(degre1), fillOpacity = 0.02)
+               radius = ~degre2*2, popup = ~paste("Date :",time1," / Second capteur :",id_capteur1),
+               color = ~couleurs2(degre2), fillOpacity = 0.02)
   
-  
+  m <- addCircles(m, data=villes, lng = ~out$gps_lng, lat = ~out$gps_lat, weight = 1,
+                  radius = ~pollution1, popup = ~paste("Date :",out$timestamp," / Premier capteur :",out$node_id),
+                  color = "#FF0000", fillOpacity = 0.1)
+
   m <- addPolylines(m, data = villes,lat = ~out2$gps_lat, lng = ~out2$gps_lng)
+  m <- addPolylines(m, data = villes,lat = ~out$gps_lat, lng = ~out$gps_lng, color = "#00FF00", fillOpacity = 0.015 )
   library(htmlwidgets)
   saveWidget(m, 'map.html', selfcontained = TRUE)
   
 }
 if(sensor_box2 == "NULL"){
+  if (sensor_type == "pm1.0"){
+    pollution = out$pm1.0
+  }
+  
+  if (sensor_type == "pm10"){
+    pollution = out$pm10
+  }
+  
+  if (sensor_type == "pm2.5"){
+    pollution = out$pm2.5
+  }
+  
+  if (sensor_type == "no2"){
+    pollution = out$no2
+  }
+  
+  if (sensor_type == "bc"){
+    pollution = out$bc
+  }
+  
   villes <- data.frame(time = out$timestamp,
                        Latitude = out$gps_lat,
                        Longitude = out$gps_lng,
-                       id_capteur = out$node_id)
-  
+                       id_capteur = out$node_id,
+                       degre = pollution)
+  couleurs <- colorNumeric(c("#FCAB8F", "#FAF187", "#FFFFFF"), villes$degre, n = 3)
   m <- leaflet(villes) %>% addTiles() %>%
     addCircles(lng = ~Longitude, lat = ~Latitude, weight = 1,
-               radius = 50, popup = ~paste(time, ":", id_capteur),
-               color = "#FF0808", fillOpacity = 0.5)
+               radius = ~degre*2, popup = ~paste("Date :",time," / Capeur :",id_capteur),
+               color = ~couleurs(degre), fillOpacity = 0.02)
   
   m <- addPolylines(m, data = villes,lat = ~out$gps_lat, lng = ~out$gps_lng)
   
   library(htmlwidgets)
   saveWidget(m, 'map.html', selfcontained = TRUE)
 }
-
-#m
-#bon
 
 dbDisconnect(con)
 
