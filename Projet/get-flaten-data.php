@@ -218,10 +218,12 @@
 								if(isset($_POST['columns'])) {
 									$columns = $_POST['columns'];
 									$colToString = "";
-									foreach((array)$columns as $col) {
-										$colToString .= $col.",";
+									foreach($columns as $col) {
+										if($columns[count($columns)-1] != $col)
+											$colToString .= $col.", ";
+										else
+											$colToString .= $col;
 									}
-									echo $colToString; // et en gros j'aimerais mettre cette variable dans le select de la requete BD
 								}
 								
 								
@@ -233,11 +235,9 @@
 										)" );
 									
 								if (isset($_POST['DeviceID'])) {
-							    foreach ($sensor_ids as $sensor_id )
-								{
-								pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) 
-								VALUES($sensor_id)");
-								}
+									foreach ($sensor_ids as $sensor_id ) {
+										pg_exec($dbcpolluscope, "INSERT INTO \"Tabletemporary\"(\"sensor_id\" ) VALUES($sensor_id)");
+									}
 								}
 								
 				
@@ -268,24 +268,33 @@
 								
 								echo "</select>
 								
-								<select style=\"width:200px;\" multiple>
-									<option>id</option>
-									<option>timestamp</option>
-									<option>node_id</option>
-									<option>node_name</option>
-									<option>gps_lat</option>
-									<option>gps_lng</option>
-									<option>gps_alt</option>
-									<option>temperature</option>
-									<option>humidity</option>
-									<option>pressure</option>
-									<option>pm2.5</option>
-									<option>pm10</option>
-									<option>pm1.0</option>
-									<option>formaldehyde</option>
-									<option>no2</option>
-									<option>bc</option>
-								</select>
+								<br>
+								<font color=#e60000>Data:</font>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"gps_lat\" name=\"columns[]\" value=\"gps_lat\" checked>
+								<label class=\"label_bug\" for=\"gps_lat\">gps_lat</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"gps_lng\" name=\"columns[]\" value=\"gps_lng\" checked>
+								<label class=\"label_bug\" for=\"gps_lng\">gps_lng</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"gps_alt\" name=\"columns[]\" value=\"gps_alt\" checked>
+								<label class=\"label_bug\" for=\"gps_alt\">gps_alt</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"temperature\" name=\"columns[]\" value=\"temperature\" checked>
+								<label class=\"label_bug\" for=\"temperature\">temperature</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"humidity\" name=\"columns[]\" value=\"humidity\" checked>
+								<label class=\"label_bug\" for=\"humidity\">humidity</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pressure\" name=\"columns[]\" value=\"pressure\" checked>
+								<label class=\"label_bug\" for=\"pressure\">pressure</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pm2.5\" name=\"columns[]\" value=\"pm2.5\" checked>
+								<label class=\"label_bug\" for=\"pm2.5\">pm2.5</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pm10\" name=\"columns[]\" value=\"pm10\" checked>
+								<label class=\"label_bug\" for=\"pm10\">pm10</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pm1.0\" name=\"columns[]\" value=\"pm1.0\" checked>
+								<label class=\"label_bug\" for=\"pm1.0\">pm1.0</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"formaldehyde\" name=\"columns[]\" value=\"formaldehyde\" checked>
+								<label class=\"label_bug\" for=\"formaldehyde\">formaldehyde</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"no2\" name=\"columns[]\" value=\"no2\" checked>
+								<label class=\"label_bug\" for=\"no2\">no2</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"bc\" name=\"columns[]\" value=\"bc\" checked>
+								<label class=\"label_bug\" for=\"bc\">bc</label>
+								
 								
 								</header>
 								
@@ -380,8 +389,13 @@
 									'.</p><p> <i>select * from ( select * from flaten_all_data0 order by id DESC LIMIT 100 ) as p  order by id asc  </i> on Polluscope DB</p>';
 									
 								} // End of query IF.
-								
-								if($query2 = pg_exec($dbcpolluscope, "  select * from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC LIMIT 100 ) as p  order by id asc  "))
+								if(isset($colToString)){
+									if($colToString != "")
+										$query = "select id, timestamp, node_id, node_name, ".$colToString." from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC LIMIT 100 ) as p  order by id asc";
+								}
+								else
+									$query = "select id, timestamp, node_id, node_name from ( select * from flaten_all_data,\"Tabletemporary\" where \"Tabletemporary\".\"sensor_id\"=flaten_all_data.\"node_id\" and (\"timestamp\" BETWEEN '$start1' and '$end1') and (temperature BETWEEN '$minTemp' and '$maxTemp') and (humidity BETWEEN '$minHum' and '$maxHum') and (pressure BETWEEN '$minPress' and '$maxPress') order by id DESC LIMIT 100 ) as p  order by id asc";
+								if($query2 = pg_exec($dbcpolluscope, $query))
 								
 								{
 									$nb = pg_num_rows($query2);
@@ -391,80 +405,29 @@
 									<h3> Number of row : $nb</h3>
 									
 									<tr>
-									
 									<th> id </th>
-									
 									<th> timestamp </th>
-									
 									<th> node_id </th>
-									
-									<th> node_name </th>
-									
-									<th> gps_lat </th>
-									
-									<th> gps_lng </th>
-									
-									<th> gps_alt </th>
-									
-									<th> temperature </th>
-									
-									<th> humidity </th>
-									
-									<th> pressure </th>
-									
-									<th> pm2.5 </th>
-									
-									<th> pm10 </th>
-									
-									<th> pm1.0 </th>
-									
-									<th> formaldehyde </th>
-									
-									<th> no2 </th>
-									
-									<th> bc </th>
-									
-									</tr>";
-									
+									<th> node_name </th>";
+									if(isset($columns)){
+										foreach($columns as $col) 
+											echo "<th>".$col."</th>";
+									}
+									echo "</tr>";
 									
 									
 									while ($row = pg_fetch_array($query2)) {
 										
-										print "<tr> 
-										
+										print "<tr>
 										<td>{$row['id']}</td>
-										
 										<td>{$row['timestamp']}</td>
-										
 										<td>{$row['node_id']}</td>
-										
-										<td>{$row['node_name']}</td>
-										
-										<td>{$row['gps_lat']}</td>                                                                                      
-										
-										<td>{$row['gps_lng']}</td>
-										
-										<td>{$row['gps_alt']}</td>
-										
-										<td>{$row['temperature']}</td>
-										
-										<td>{$row['humidity']}</td>
-										
-										<td>{$row['pressure']}</td>
-										
-										<td>{$row['pm2.5']}</td>
-										
-										<td>{$row['pm10']}</td>
-										
-										<td>{$row['pm1.0']}</td>
-										
-										<td>{$row['formaldehyde']}</td>
-										
-										<td>{$row['no2']}</td>
-										
-										<td>{$row['bc']}</td>
-										
-										</tr>";
+										<td>{$row['node_name']}</td>";
+										if(isset($columns)){
+											foreach($columns as $col) 
+												echo "<td>".$row[$col]."</td>";
+										}
+										echo "</tr>";
 										
 										
 									}
@@ -687,26 +650,35 @@
 										<option value=<?php echo $NameDevice[0];?> ><?php echo $NameDevice[1]; ?> </option>
 									<?php }								
 								echo "</select>
+								
+								
+								
 								<br>
 								<font color=#e60000>Data:</font>
-								<select style=\"width:200px;\" multiple>
-									<option>id</option>
-									<option>timestamp</option>
-									<option>node_id</option>
-									<option>node_name</option>
-									<option>gps_lat</option>
-									<option>gps_lng</option>
-									<option>gps_alt</option>
-									<option>temperature</option>
-									<option>humidity</option>
-									<option>pressure</option>
-									<option>pm2.5</option>
-									<option>pm10</option>
-									<option>pm1.0</option>
-									<option>formaldehyde</option>
-									<option>no2</option>
-									<option>bc</option>
-								</select>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"gps_lat\" name=\"columns[]\" value=\"gps_lat\" checked>
+								<label class=\"label_bug\" for=\"gps_lat\">gps_lat</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"gps_lng\" name=\"columns[]\" value=\"gps_lng\" checked>
+								<label class=\"label_bug\" for=\"gps_lng\">gps_lng</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"gps_alt\" name=\"columns[]\" value=\"gps_alt\" checked>
+								<label class=\"label_bug\" for=\"gps_alt\">gps_alt</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"temperature\" name=\"columns[]\" value=\"temperature\" checked>
+								<label class=\"label_bug\" for=\"temperature\">temperature</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"humidity\" name=\"columns[]\" value=\"humidity\" checked>
+								<label class=\"label_bug\" for=\"humidity\">humidity</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pressure\" name=\"columns[]\" value=\"pressure\" checked>
+								<label class=\"label_bug\" for=\"pressure\">pressure</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pm2.5\" name=\"columns[]\" value=\"pm2.5\" checked>
+								<label class=\"label_bug\" for=\"pm2.5\">pm2.5</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pm10\" name=\"columns[]\" value=\"pm10\" checked>
+								<label class=\"label_bug\" for=\"pm10\">pm10</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"pm1.0\" name=\"columns[]\" value=\"pm1.0\" checked>
+								<label class=\"label_bug\" for=\"pm1.0\">pm1.0</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"formaldehyde\" name=\"columns[]\" value=\"formaldehyde\" checked>
+								<label class=\"label_bug\" for=\"formaldehyde\">formaldehyde</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"no2\" name=\"columns[]\" value=\"no2\" checked>
+								<label class=\"label_bug\" for=\"no2\">no2</label>
+								<input class=\"checkbox_bug\" type=\"checkbox\" id=\"bc\" name=\"columns[]\" value=\"bc\" checked>
+								<label class=\"label_bug\" for=\"bc\">bc</label>
 								
 								</header>
 								
@@ -1027,3 +999,23 @@
 				</body>
 				
 				</html>
+
+				
+<script>
+var label = document.querySelectorAll(".label_bug");
+for(i = 0; i < label.length ; i++) {	
+	label[i].addEventListener("click",function(e) {
+		checkbox = document.querySelector(".checkbox_bug[id=" +  e.target.getAttribute("for") + "]");
+		if(checkbox.checked){
+			checkbox.setAttribute("checked", false);
+		}
+		else {
+			checkbox.setAttribute("checked", true);
+		}		
+	});
+}
+
+
+
+console.log(label);
+</script>
