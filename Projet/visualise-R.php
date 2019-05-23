@@ -291,6 +291,7 @@
 														<section>
 															<div class=content>
 																<?php
+																	sleep(5);
 																	$var=rand();
 																	exec("R CMD BATCH polluscope.R ".$number );
 																	echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";	
@@ -306,6 +307,7 @@
 															<section>
 																<div class=content>
 																	<?php
+																		sleep(5);
 																		$var=rand();	
 																		exec("R CMD BATCH polluscope.R ".$number );
 																		echo "<iframe id='map_leaflet' title='Carte leaflet' src='map.html' width='570px' height='400px'></iframe>";	

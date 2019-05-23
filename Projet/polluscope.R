@@ -157,13 +157,13 @@ if ( sensor_box2 != "NULL") {
            print('default')
          }
   )
-
+  
   sqlStatement4 <- paste0("select u1.*
                          from flaten_all_data as u1
                          full join flaten_all_data as u2 on u2.id=u1.id
                          where u1.timestamp between '",start_date,"' and '",end_date,"'
                          and (u1.node_id='",sensor_box,"' or u2.node_id='",sensor_box2,"')" )
-
+  
   out4=dbGetQuery(con, sqlStatement4)
   switch(typePlot,
          point={
@@ -218,7 +218,7 @@ if ( sensor_box2 != "NULL") {
            print('default')
          }
   )
-
+  
   
   
 }
@@ -250,23 +250,50 @@ if (sensor_box2 == "NULL") {
 dev.off()
 #bon
 library(leaflet)
+#bon
+if (sensor_box2 != "NULL"){
+  sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box2 ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
+  out2=dbGetQuery(con, sqlStatement)
+  
+  
+  
+  villes <- data.frame(time1 = out2$timestamp,
+                       Latitude1 = out2$gps_lat,
+                       Longitude1 = out2$gps_lng,
+                       id_capteur1 = out2$node_id,
+                       degre1 = out2$pm1.0)
+  couleurs <- colorNumeric(c("#FCAB8F", "#FAF187", "#FFFFFF"), villes$degre1, n = 3)
 
-villes <- data.frame(time = out$timestamp,
-                     Latitude = out$gps_lat,
-                     Longitude = out$gps_lng,
-                     id_capteur = out$node_id)
-
-m <- leaflet(villes) %>% addTiles() %>%
-  addCircles(lng = ~Longitude, lat = ~Latitude, weight = 1,
-             radius = 50, popup = ~paste(time, ":", id_capteur),
-             color = "#FF0808", fillOpacity = 0.5)
-
-m <- addPolylines(m, data = villes,lat = ~out$gps_lat, lng = ~out$gps_lng)
-
-library(htmlwidgets)
-saveWidget(m, 'map.html', selfcontained = TRUE)
+  m <- leaflet(villes) %>% addTiles() %>%
+    addCircles(lng = ~Longitude1, lat = ~Latitude1, weight = 1,
+               radius = ~degre1*2, popup = ~paste(time1, ":", id_capteur1),
+               color = ~couleurs(degre1), fillOpacity = 0.02)
+  
+  
+  m <- addPolylines(m, data = villes,lat = ~out2$gps_lat, lng = ~out2$gps_lng)
+  library(htmlwidgets)
+  saveWidget(m, 'map.html', selfcontained = TRUE)
+  
+}
+if(sensor_box2 == "NULL"){
+  villes <- data.frame(time = out$timestamp,
+                       Latitude = out$gps_lat,
+                       Longitude = out$gps_lng,
+                       id_capteur = out$node_id)
+  
+  m <- leaflet(villes) %>% addTiles() %>%
+    addCircles(lng = ~Longitude, lat = ~Latitude, weight = 1,
+               radius = 50, popup = ~paste(time, ":", id_capteur),
+               color = "#FF0808", fillOpacity = 0.5)
+  
+  m <- addPolylines(m, data = villes,lat = ~out$gps_lat, lng = ~out$gps_lng)
+  
+  library(htmlwidgets)
+  saveWidget(m, 'map.html', selfcontained = TRUE)
+}
 
 #m
 #bon
+
 dbDisconnect(con)
 
