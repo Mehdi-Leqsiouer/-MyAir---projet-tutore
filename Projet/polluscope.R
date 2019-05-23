@@ -255,13 +255,22 @@ if (sensor_box2 != "NULL"){
   sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box2 ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
   out2=dbGetQuery(con, sqlStatement)
   
-  
+  if (sensor_type == "pm1.0")
+    pollution = out2$pm1.0
+  if (sensor_type == "pm10")
+    pollution = out2$pm10
+  if (sensor_type == "pm2.5")
+    pollution = out2$pm2.5
+  if (sensor_type == "no2")
+    pollution = out2$no2
+  if (sensor_type == "bc")
+    pollution = out2$bc
   
   villes <- data.frame(time1 = out2$timestamp,
                        Latitude1 = out2$gps_lat,
                        Longitude1 = out2$gps_lng,
                        id_capteur1 = out2$node_id,
-                       degre1 = out2$pm1.0)
+                       degre1 = pollution)
   couleurs <- colorNumeric(c("#FCAB8F", "#FAF187", "#FFFFFF"), villes$degre1, n = 3)
 
   m <- leaflet(villes) %>% addTiles() %>%
