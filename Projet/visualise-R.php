@@ -282,7 +282,7 @@
 													$color2 = $_POST['plotColor2'];
 													$type = $_POST['plotType'];
 													$number=$start1." ".$end1." ".$sensorBox." ".$sensorType." ".$color." ".$type." ".$sensorBox2." ".$color2;
-
+																										
 													exec('"C:/Program Files/R/R-3.6.0/bin/Rscript.exe" C:/polluscope/polluscope.R 2>&1 '.$number);// 2>&1 to get the error
 													
 													if ($sensorBox2=="NULL"){

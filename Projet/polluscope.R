@@ -14,14 +14,14 @@ typePlot<-args[8]
 sensor_box2<-args[9]
 colorPlot2<-args[10]
 
-# start_date<-"2018-03-01 00:00"
-# end_date<-"2018-03-30 23:10"
-# sensor_box<-4317218322204134
-# sensor_box2<-NULL
-# typePlot<-"point"
-# sensor_type<-"pm1.0"
-# colorPlot<-"red"
-# colorPlot2<-"blue"
+#start_date<-"2018-03-07 00:00"
+#end_date<-"2018-03-15 23:10"
+#sensor_box<-4317218322204134
+#sensor_box2<-NULL
+#typePlot<-"point"
+#sensor_type<-"pm1.0"
+#colorPlot<-"red"
+#colorPlot2<-"blue"
 
 .libPaths('C:/Users/flori/OneDrive/Documents/R/win-library/3.6')#to indicate the path to the libraries when run the script through php
 require('RPostgreSQL')
@@ -36,6 +36,8 @@ if (sensor_box2 != "NULL") {
   sqlStatement3 <-paste0("select name FROM unified_node where id='",sensor_box2,"'"  )
   out3 = dbGetQuery(con,sqlStatement3)
 }
+
+#bon
 
 sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
 out=dbGetQuery(con, sqlStatement)
@@ -97,6 +99,7 @@ switch(typePlot,
 )
 p
 dev.off()
+#bon
 
 if ( sensor_box2 != "NULL") {
   sqlStatement <- paste0("select * from flaten_all_data where node_id='", sensor_box2 ,"' and timestamp between '", start_date ,"' and '", end_date ,"'  ")
@@ -154,7 +157,6 @@ if ( sensor_box2 != "NULL") {
            print('default')
          }
   )
-
 
   sqlStatement4 <- paste0("select u1.*
                          from flaten_all_data as u1
@@ -221,16 +223,20 @@ if ( sensor_box2 != "NULL") {
   
 }
 
+#bon
 
 png(filename="plot2.png",width=500,height=500)# open or creat the png file
-p2
+#p2
 
 dev.off()
+
 
 dev.set(5)
 png(filename="plot3.png",width=500,height=500)# open or creat the png file
-p3
+#p3
 dev.off()
+
+#bon
 
 register_google(key = "AIzaSyBd4BvkehJr6z4Umr9yh83WY4C2FC0XwXk")
 png(filename="map.png",width=500,height=500)# opening or creating the png file
@@ -242,10 +248,8 @@ if (sensor_box2 == "NULL") {
   ggmap(lx_map, extent = "device")+ geom_point(data=out, aes(x=out$gps_lng, y=out$gps_lat),size=4, color=colorPlot)
 }
 dev.off()
-
+#bon
 library(leaflet)
-
-
 
 villes <- data.frame(time = out$timestamp,
                      Latitude = out$gps_lat,
@@ -255,14 +259,14 @@ villes <- data.frame(time = out$timestamp,
 m <- leaflet(villes) %>% addTiles() %>%
   addCircles(lng = ~Longitude, lat = ~Latitude, weight = 1,
              radius = 50, popup = ~paste(time, ":", id_capteur),
-             color = "#a500a5", fillOpacity = 0.5)
+             color = "#FF0808", fillOpacity = 0.5)
 
 m <- addPolylines(m, data = villes,lat = ~out$gps_lat, lng = ~out$gps_lng)
 
 library(htmlwidgets)
 saveWidget(m, 'map.html', selfcontained = TRUE)
 
-m
-
+#m
+#bon
 dbDisconnect(con)
 
