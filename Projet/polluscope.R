@@ -226,14 +226,14 @@ if ( sensor_box2 != "NULL") {
 
 
 png(filename="plot2.png",width=500,height=500)# open or creat the png file
-
+p2
 
 dev.off()
 
 
 dev.set(5)
 png(filename="plot3.png",width=500,height=500)# open or creat the png file
-
+p3
 dev.off()
 
 
